@@ -1,8 +1,10 @@
-package ca.qc.cgmatane.fruitride;
+package ca.qc.cgmatane.fruitride.vue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ca.qc.cgmatane.fruitride.R;
 
 public class MainActivity extends AppCompatActivity {
 
