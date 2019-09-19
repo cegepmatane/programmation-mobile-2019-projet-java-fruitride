@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".vue.VueConfiguration">
+
+    <!-- <com.google.android.material.chip.Chip
+        android:id="@+id/boutonActivationLieuxAproximite"
+        android:layout_width="49dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/boutonActivationNotification" /> -->
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="119dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="25dp"
+        android:text="Lieux à proximité :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <RadioGroup
+        android:id="@+id/groupeRadioButtonChoixTheme"
+        android:layout_width="111dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="61dp"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/radioButtonThemeSombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sombre" />
+
+        <RadioButton
+            android:id="@+id/radioButtonThemeClair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clair" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="55dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="67dp"
+        android:text="Thème :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="86dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="123dp"
+        android:text="Notification :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <!-- <com.google.android.material.chip.Chip
+        android:id="@+id/boutonActivationNotification"
+        android:layout_width="49dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/groupeRadioButtonChoixTheme" /> -->
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="186dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="211dp" />
+
+    <Switch
+        android:id="@+id/boutonActiverNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="54dp"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/groupeRadioButtonChoixTheme" />
+
+    <Switch
+        android:id="@+id/boutonActiverLieuxAproximiter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/boutonActiverNotification" />
+</androidx.constraintlayout.widget.ConstraintLayout>
