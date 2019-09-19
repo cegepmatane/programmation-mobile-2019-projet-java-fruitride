@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import ca.qc.cgmatane.fruitride.R;
 
@@ -17,18 +18,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView barreDeNiveau = (ImageView) findViewById(R.id.barre_de_niveau);
-
-        int imageRessource = getResources().getIdentifier("@drawable/medium", null, this.getPackageName());
-        barreDeNiveau.setImageResource(imageRessource);
+        ProgressBar barre = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
+        barre.setProgress(50);
 
         Button bouton = findViewById(R.id.button);
-
-        final Intent testCarte = new Intent(this, VueCarte.class);
+        final Intent intent = new Intent(this, VueCarte.class);
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(testCarte);
+                startActivity(intent);
             }
         });
     }

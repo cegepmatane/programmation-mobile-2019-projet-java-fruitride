@@ -35,28 +35,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vue_score_label_nom_joueur" />
 
-    <ImageView
-        android:id="@+id/barre_de_niveau"
-        android:layout_width="346dp"
-        android:layout_height="202dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="79dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="123dp"
+    <ProgressBar
+        android:id="@+id/vue_score_barre_de_niveau"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="335dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginBottom="252dp"
+        android:scrollbarSize="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_experience"
-        app:srcCompat="@android:color/background_light" />
+        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_experience" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginStart="158dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginBottom="133dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vue_score_barre_de_niveau" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
