@@ -1,5 +1,8 @@
 package ca.qc.cgmatane.fruitride.donnee;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,5 +28,31 @@ public class UtilisateurDAO {
             listeUtilisateurPourAdapteur.add(utilisateur.obtenirUtilisateurPourAdapteur());
         }
         return listeUtilisateurPourAdapteur;
+    }
+
+    public Utilisateur chercherUtilisateurParId(int id_utilisateur) {
+        for (Utilisateur utilisateurRecherche :
+                this.listeUtilisateur) {
+            if (utilisateurRecherche.getId_utilisateur() == id_utilisateur)
+                return utilisateurRecherche;
+        }
+        return null;
+    }
+
+    public void ajouterUtilisateur(Utilisateur utilisateur) {
+        listeUtilisateur.add(utilisateur);
+    }
+
+    public void modifierUtilisateur(Utilisateur utilisateur) {
+        for (Utilisateur utilisateurRecherche :
+                this.listeUtilisateur) {
+            if (utilisateurRecherche.getId_utilisateur() == utilisateur.getId_utilisateur()) {
+                utilisateurRecherche = utilisateur;
+            }
+        }
+    }
+
+    public List<Utilisateur> recupererListeUtilisateur() {
+        return listeUtilisateur;
     }
 }
