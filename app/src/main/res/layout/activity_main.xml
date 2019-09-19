@@ -7,7 +7,7 @@
     tools:context=".vue.MainActivity">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/vue_score_label_nom_joueur"
         android:layout_width="311dp"
         android:layout_height="63dp"
         android:text="Chateau Lucas"
@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.212" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/vue_score_label_experience"
         android:layout_width="129dp"
         android:layout_height="57dp"
         android:layout_marginStart="141dp"
@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_nom_joueur" />
 
     <ImageView
         android:id="@+id/barDeNiveau"
@@ -46,7 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_experience"
         app:srcCompat="@android:color/background_light" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
