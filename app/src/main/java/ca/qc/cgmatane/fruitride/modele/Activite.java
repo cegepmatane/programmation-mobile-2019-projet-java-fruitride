@@ -1,13 +1,20 @@
 package ca.qc.cgmatane.fruitride.modele;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Activite {
     protected int idActivite;
-    protected Date date;
+    protected Calendar date;
     protected int nombreDePas;
     protected int nombreDeFruitsRamasses;
     protected int idUtilisateur;
+
+    public Activite(Calendar date, int nombreDePas, int nombreDeFruitsRamasses, int idUtilisateur) {
+        this.date = date;
+        this.nombreDePas = nombreDePas;
+        this.nombreDeFruitsRamasses = nombreDeFruitsRamasses;
+        this.idUtilisateur = idUtilisateur;
+    }
 
     public int getIdActivite() {
         return idActivite;
@@ -17,11 +24,11 @@ public class Activite {
         this.idActivite = idActivite;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 
