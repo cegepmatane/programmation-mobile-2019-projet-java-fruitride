@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/vue_score_label_nom_joueur" />
 
     <ImageView
-        android:id="@+id/barDeNiveau"
+        android:id="@+id/barre_de_niveau"
         android:layout_width="346dp"
         android:layout_height="202dp"
         android:layout_marginStart="32dp"
@@ -48,5 +48,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vue_score_label_experience"
         app:srcCompat="@android:color/background_light" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="48dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
