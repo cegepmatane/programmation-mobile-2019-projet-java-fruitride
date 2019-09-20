@@ -33,5 +33,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button boutonStatistique = findViewById(R.id.boutonStatistique);
+        final Intent intent2 = new Intent(this, VueStatistique.class);
+        boutonStatistique.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent2);
+            }
+        });
     }
 }

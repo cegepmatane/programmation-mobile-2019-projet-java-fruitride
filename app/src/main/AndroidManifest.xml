@@ -13,6 +13,8 @@
 
         <activity android:name=".vue.VueCarte" />
 
+        <activity android:name=".vue.VueStatistique" />
+
         <activity android:name=".vue.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
