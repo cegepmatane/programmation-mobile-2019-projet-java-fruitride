@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 
 public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -43,6 +44,18 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 startActivity(testConfiguration);
+            }
+        });
+
+        final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
+        final Intent intentionNaviguerVuePrincipale = new Intent(this, MainActivity.class);
+
+        findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(VueCarte.this) {
+            public void onSwipeRight() {
+                startActivity(intentionNaviguerVuePrincipale);
+            }
+            public void onSwipeLeft() {
+                startActivity(intentionNaviguerVueConfiguration);
             }
         });
     }

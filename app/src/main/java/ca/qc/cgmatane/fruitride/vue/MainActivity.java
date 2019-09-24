@@ -68,11 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(MainActivity.this) {
             public void onSwipeRight() {
-                // Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
 
             }
             public void onSwipeLeft() {
-                // Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
