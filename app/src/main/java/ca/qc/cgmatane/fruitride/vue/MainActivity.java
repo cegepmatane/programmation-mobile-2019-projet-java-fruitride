@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setProgressBar();
+
         Button bouton = findViewById(R.id.button);
         final Intent intent = new Intent(this, VueCarte.class);
         bouton.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +53,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final Intent intent2 = new Intent(this, VueStatistique.class);
 
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
+
+        monLayout.setOnTouchListener(new ListenerSwipe(MainActivity.this) {
+            public void onSwipeRight() {
+
+            }
+            public void onSwipeLeft() {
+                startActivity(intent);
+            }
+        });
+
         monLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -110,14 +122,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
-
-        findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(MainActivity.this) {
-            public void onSwipeRight() {
-
-            }
-            public void onSwipeLeft() {
-                startActivity(intent);
-            }
-        });
     }
 }
