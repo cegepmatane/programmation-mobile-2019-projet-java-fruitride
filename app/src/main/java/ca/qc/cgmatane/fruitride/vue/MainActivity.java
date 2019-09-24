@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +63,17 @@ public class MainActivity extends AppCompatActivity {
                     }, 500);
                 }
                 return false;
+            }
+        });
+
+        findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(MainActivity.this) {
+            public void onSwipeRight() {
+                // Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
+
+            }
+            public void onSwipeLeft() {
+                // Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
         });
     }
