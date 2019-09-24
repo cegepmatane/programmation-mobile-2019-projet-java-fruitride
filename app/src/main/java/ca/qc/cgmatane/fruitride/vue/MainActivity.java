@@ -1,20 +1,29 @@
 package ca.qc.cgmatane.fruitride.vue;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import ca.qc.cgmatane.fruitride.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    boolean doubleTap = false;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +43,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button boutonStatistique = findViewById(R.id.boutonStatistique);
         final Intent intent2 = new Intent(this, VueStatistique.class);
-        boutonStatistique.setOnClickListener(new View.OnClickListener() {
+
+        ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
+        monLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(intent2);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (doubleTap) {
+                    startActivity(intent2);
+                } else {
+                    doubleTap = true;
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            doubleTap = false;
+                        }
+                    }, 500);
+                }
+                return false;
             }
         });
     }
