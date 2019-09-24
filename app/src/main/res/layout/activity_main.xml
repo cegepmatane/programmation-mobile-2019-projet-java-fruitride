@@ -39,17 +39,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_experience" />
+        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_nombre_de_pas" />
 
     <TextView
-        android:id="@+id/vue_score_label_experience"
+        android:id="@+id/vue_score_label_nombre_de_pas"
         android:layout_width="129dp"
         android:layout_height="57dp"
         android:layout_marginStart="141dp"
         android:layout_marginTop="66dp"
         android:layout_marginEnd="141dp"
         android:layout_marginBottom="404dp"
-        android:text="3600 xp"
+        android:text="0"
         android:textAlignment="center"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
