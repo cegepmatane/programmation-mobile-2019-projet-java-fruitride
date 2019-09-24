@@ -1,7 +1,10 @@
 package ca.qc.cgmatane.fruitride.vue;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,17 +32,26 @@ public class VueStatistique extends AppCompatActivity {
         barDataSet = new BarDataSet(barEntries, "");
         barData = new BarData(barDataSet);
         barChart.setData(barData);
-        barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        //barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(18f);
+
+        Button boutonRetour = findViewById(R.id.boutonRetour);
+        final Intent intentRetour = new Intent(this, MainActivity.class);
+        boutonRetour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentRetour);
+            }
+        });
     }
     private void getEntries() {
         barEntries = new ArrayList<>();
-        barEntries.add(new BarEntry(2f, 0));
-        barEntries.add(new BarEntry(4f, 1));
-        barEntries.add(new BarEntry(6f, 1));
-        barEntries.add(new BarEntry(8f, 3));
-        barEntries.add(new BarEntry(7f, 4));
-        barEntries.add(new BarEntry(3f, 3));
+        barEntries.add(new BarEntry(1, 3000));
+        barEntries.add(new BarEntry(2, 5500));
+        barEntries.add(new BarEntry(3, 2000));
+        barEntries.add(new BarEntry(4, 10523));
+        barEntries.add(new BarEntry(5, 5124));
+        barEntries.add(new BarEntry(6, 523));
     }
 }

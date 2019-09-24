@@ -1,14 +1,10 @@
 package ca.qc.cgmatane.fruitride.donnee;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
-
 public class UtilisateurDAO {
 
     private static UtilisateurDAO instance = null;
