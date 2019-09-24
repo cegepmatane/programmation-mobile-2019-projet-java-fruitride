@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //test
         ProgressBar barre = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
         barre.setProgress(50);
         barre.setScaleY(5f);
