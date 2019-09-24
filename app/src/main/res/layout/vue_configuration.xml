@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".vue.VueConfiguration">
@@ -14,16 +15,6 @@
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/boutonActivationNotification" /> -->
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="119dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="25dp"
-        android:text="Lieux à proximité :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <RadioGroup
         android:id="@+id/groupeRadioButtonChoixTheme"
@@ -47,15 +38,23 @@
             android:text="Clair" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="55dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="131dp"
-        android:layout_marginTop="67dp"
-        android:text="Thème :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Switch
+        android:id="@+id/boutonActiverNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="54dp"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/groupeRadioButtonChoixTheme" />
+
+    <Switch
+        android:id="@+id/boutonActiverLieuxAproximiter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/boutonActiverNotification" />
 
     <TextView
         android:id="@+id/textView2"
@@ -76,6 +75,26 @@
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/groupeRadioButtonChoixTheme" /> -->
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="119dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="25dp"
+        android:text="Lieux à proximité :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="55dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="67dp"
+        android:text="Thème :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -89,22 +108,4 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="211dp" />
-
-    <Switch
-        android:id="@+id/boutonActiverNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="54dp"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/groupeRadioButtonChoixTheme" />
-
-    <Switch
-        android:id="@+id/boutonActiverLieuxAproximiter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/boutonActiverNotification" />
 </androidx.constraintlayout.widget.ConstraintLayout>

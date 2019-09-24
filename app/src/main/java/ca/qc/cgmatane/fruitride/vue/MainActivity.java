@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -109,5 +110,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+
+        findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(MainActivity.this) {
+            public void onSwipeRight() {
+
+            }
+            public void onSwipeLeft() {
+                startActivity(intent);
+            }
+        });
     }
 }
