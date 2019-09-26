@@ -3,6 +3,7 @@ package ca.qc.cgmatane.fruitride.vue;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -118,8 +120,14 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
         LatLng ny = new LatLng(48.840981, -67.497192);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
         List<Fruit> listeFruit = accesseurFruit.recupererListeFruit();
+
+
+
         for (Fruit fruit : listeFruit) {
-            gmap.addMarker(new MarkerOptions().position(new LatLng(fruit.getLatitude(), fruit.getLongitude())));
+            gmap.addMarker(
+                    new MarkerOptions().position(
+                            new LatLng(fruit.getLatitude(), fruit.getLongitude())
+                    ).icon(BitmapDescriptorFactory.fromResource(R.drawable.apple)));
         }
     }
 }
