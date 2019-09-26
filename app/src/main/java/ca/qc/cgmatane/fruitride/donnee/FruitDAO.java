@@ -13,6 +13,7 @@ public class FruitDAO {
         if (instance == null) {
             instance = new FruitDAO();
         }
+        instance.preparerListeFruit();
         return instance;
     }
 
@@ -21,9 +22,9 @@ public class FruitDAO {
     }
 
     private void preparerListeFruit() {
-        listeFruit.add(new Fruit(12.123456, 56.123456));
-        listeFruit.add(new Fruit(13.123456, 67.123456));
-        listeFruit.add(new Fruit(14.123456, 47.123456));
+        listeFruit.add(new Fruit(48.840981, -67.497192));
+        listeFruit.add(new Fruit(48.840984, -67.500000));
+        listeFruit.add(new Fruit(48.841000, -67.497492));
     }
 
     public void ajouterFruit(Fruit fruit) {
