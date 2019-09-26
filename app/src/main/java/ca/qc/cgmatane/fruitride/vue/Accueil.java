@@ -55,6 +55,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         afficherUtilisateur();
 
         Button bouton = findViewById(R.id.button);
+        final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
         final Intent intent = new Intent(this, VueCarte.class);
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,14 +70,14 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         monLayout.setOnTouchListener(new ListenerSwipe(Accueil.this) {
             public void onSwipeRight() {
-
+                startActivity(intent);
             }
             public void onSwipeLeft() {
-                startActivity(intent);
+                startActivity(intentionNaviguerVueConfiguration);
             }
         });
 
-        monLayout.setOnTouchListener(new View.OnTouchListener() {
+        findViewById(R.id.vue_score_label_nombre_de_pas).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (doubleTap) {

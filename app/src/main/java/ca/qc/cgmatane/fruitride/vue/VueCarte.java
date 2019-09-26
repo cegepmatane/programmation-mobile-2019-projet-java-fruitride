@@ -55,15 +55,15 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
-        final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
+        // final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
         final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
 
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(VueCarte.this) {
             public void onSwipeRight() {
-                startActivity(intentionNaviguerVuePrincipale);
+
             }
             public void onSwipeLeft() {
-                startActivity(intentionNaviguerVueConfiguration);
+                startActivity(intentionNaviguerVuePrincipale);
             }
         });
     }

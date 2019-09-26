@@ -15,11 +15,12 @@ public class VueConfiguration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_configuration);
 
-        final Intent intentionNaviguerVueCarte = new Intent(this, VueCarte.class);
+        // final Intent intentionNaviguerVueCarte = new Intent(this, VueCarte.class);
+        final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
 
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(VueConfiguration.this) {
             public void onSwipeRight() {
-                startActivity(intentionNaviguerVueCarte);
+                startActivity(intentionNaviguerVuePrincipale);
             }
             public void onSwipeLeft() {
             }
