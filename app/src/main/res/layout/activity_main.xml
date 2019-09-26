@@ -26,9 +26,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="335dp"
         android:layout_height="80dp"
-        android:layout_marginStart="43dp"
         android:layout_marginTop="89dp"
-        android:layout_marginEnd="43dp"
         android:layout_marginBottom="252dp"
         android:bottom="2dp"
         android:left="2dp"
@@ -37,7 +35,6 @@
         android:top="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vue_score_label_nombre_de_pas" />
 
@@ -45,9 +42,7 @@
         android:id="@+id/vue_score_label_nombre_de_pas"
         android:layout_width="129dp"
         android:layout_height="57dp"
-        android:layout_marginStart="141dp"
         android:layout_marginTop="66dp"
-        android:layout_marginEnd="141dp"
         android:layout_marginBottom="404dp"
         android:text="0"
         android:textAlignment="center"
@@ -55,7 +50,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_nom_joueur" />
+        app:layout_constraintTop_toBottomOf="@+id/vue_score_label_nom_joueur"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/vue_score_label_nom_joueur"
