@@ -32,25 +32,23 @@ public class VueStatistique extends AppCompatActivity {
         Column column = cartesian.column(getData());
         column.tooltip()
                 .position(Position.CENTER_BOTTOM)
-                .anchor(Anchor.CENTER_BOTTOM)
-                .offsetX(0d)
-                .offsetY(5d);
+                .anchor(Anchor.CENTER_BOTTOM);
         cartesian.animation(true);
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
-        cartesian.yAxis(0).title("nombre de pas");
+        cartesian.title("Votre nombre de pas cette semaine");
         columnChart.setChart(cartesian);
     }
 
     private ArrayList getData(){
         ArrayList<DataEntry> entries = new ArrayList<>();
-        entries.add(new ValueDataEntry("lundi", 85671));
-        entries.add(new ValueDataEntry("mardi", 93140));
-        entries.add(new ValueDataEntry("mercredi", 124630));
-        entries.add(new ValueDataEntry("jeudi", 110430));
-        entries.add(new ValueDataEntry("vendredi", 128000));
-        entries.add(new ValueDataEntry("samedi", 143550));
-        entries.add(new ValueDataEntry("dimanche", 120660));
+        entries.add(new ValueDataEntry("lun", 500));
+        entries.add(new ValueDataEntry("mar", 10562));
+        entries.add(new ValueDataEntry("mer", 7802));
+        entries.add(new ValueDataEntry("jeu", 2155));
+        entries.add(new ValueDataEntry("ven", 21502));
+        entries.add(new ValueDataEntry("sam", 650));
+        entries.add(new ValueDataEntry("dim", 8421));
         return entries;
     }
 }
