@@ -15,7 +15,7 @@
 
         <activity android:name=".vue.VueStatistique" />
 
-        <activity android:name=".vue.MainActivity">
+        <activity android:name=".vue.Accueil">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

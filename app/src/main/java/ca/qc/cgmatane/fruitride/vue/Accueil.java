@@ -17,20 +17,16 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     protected boolean doubleTap = false;
     protected SensorManager sensorManager;
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.accueil);
 
         accesseurUtilisateur = UtilisateurDAO.getInstance();
         accesseurUtilisateur.preparerListeUtilisateur();
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
 
-        monLayout.setOnTouchListener(new ListenerSwipe(MainActivity.this) {
+        monLayout.setOnTouchListener(new ListenerSwipe(Accueil.this) {
             public void onSwipeRight() {
 
             }

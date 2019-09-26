@@ -5,7 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vue.MainActivity">
+    tools:context=".vue.Accueil">
 
     <Button
         android:id="@+id/button"
@@ -57,13 +57,14 @@
         android:id="@+id/vue_score_label_nom_joueur"
         android:layout_width="311dp"
         android:layout_height="63dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginBottom="50dp"
         android:text="Chateau Lucas"
         android:textAlignment="center"
         android:textSize="35sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.212" />
+        app:layout_constraintBottom_toTopOf="@+id/vue_score_label_nombre_de_pas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

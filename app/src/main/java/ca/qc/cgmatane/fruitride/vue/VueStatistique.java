@@ -12,7 +12,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 
 import ca.qc.cgmatane.fruitride.R;
@@ -37,7 +37,7 @@ public class VueStatistique extends AppCompatActivity {
         barDataSet.setValueTextSize(18f);
 
         Button boutonRetour = findViewById(R.id.boutonRetour);
-        final Intent intentRetour = new Intent(this, MainActivity.class);
+        final Intent intentRetour = new Intent(this, Accueil.class);
         boutonRetour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
