@@ -38,14 +38,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected TextView nbPas;
 
     protected UtilisateurDAO accesseurUtilisateur;
+    protected Utilisateur utilisateur;
 
     protected TextView vueAccueilNomUtilisateur;
+    protected ProgressBar vueAccueilBarreDeNiveau;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        accesseurUtilisateur = UtilisateurDAO.getInstance();
+        accesseurUtilisateur.preparerListeUtilisateur();
+
+        utilisateur = accesseurUtilisateur.recupererListeUtilisateur().get(2);
 
         setProgressBar();
 
@@ -97,10 +104,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void setProgressBar() {
-        ProgressBar barre = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
-        barre.setProgress(50);
-        barre.setScaleY(5f);
-        barre.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+        vueAccueilBarreDeNiveau = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
+
+        vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
+        vueAccueilBarreDeNiveau.setScaleY(5f);
+        vueAccueilBarreDeNiveau.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -138,11 +146,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void afficherUtilisateur() {
         vueAccueilNomUtilisateur = (TextView) findViewById(R.id.vue_score_label_nom_joueur);
 
-        accesseurUtilisateur = UtilisateurDAO.getInstance();
-        accesseurUtilisateur.preparerListeUtilisateur();
-
-        List<Utilisateur> listeUtilisateurs = accesseurUtilisateur.recupererListeUtilisateur();
-
-        vueAccueilNomUtilisateur.setText(listeUtilisateurs.get(2).getNom() + " " + listeUtilisateurs.get(2).getPrenom());
+        vueAccueilNomUtilisateur.setText(utilisateur.getNom() + " " + utilisateur.getPrenom());
     }
 }
