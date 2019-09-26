@@ -58,4 +58,10 @@ public class UtilisateurDAO {
         listeUtilisateur.add(new Utilisateur("Cousson", "Théo", 13, 1300, 3));
         listeUtilisateur.add(new Utilisateur("Hug", "Loik", 14, 1450, 4));
     }
+
+    public static UtilisateurDAO getInstance() {
+        if (null == instance)
+            instance = new UtilisateurDAO();
+        return instance;
+    }
 }

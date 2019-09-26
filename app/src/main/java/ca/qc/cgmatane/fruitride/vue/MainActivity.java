@@ -23,15 +23,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
+import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    boolean doubleTap = false;
-    SensorManager sensorManager;
-    boolean running = false;
-    TextView nbPas;
+    protected boolean doubleTap = false;
+    protected SensorManager sensorManager;
+    protected boolean running = false;
+    protected TextView nbPas;
+
+    protected UtilisateurDAO accesseurUtilisateur;
+
+    protected TextView vueAccueilNomUtilisateur;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -40,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         setProgressBar();
+
+        afficherUtilisateur();
 
         Button bouton = findViewById(R.id.button);
         final Intent intent = new Intent(this, VueCarte.class);
@@ -122,5 +132,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    protected void afficherUtilisateur() {
+        vueAccueilNomUtilisateur = (TextView) findViewById(R.id.vue_score_label_nom_joueur);
+
+        accesseurUtilisateur = UtilisateurDAO.getInstance();
+        accesseurUtilisateur.preparerListeUtilisateur();
+
+        List<Utilisateur> listeUtilisateurs = accesseurUtilisateur.recupererListeUtilisateur();
+
+        vueAccueilNomUtilisateur.setText(listeUtilisateurs.get(2).getNom() + " " + listeUtilisateurs.get(2).getPrenom());
     }
 }
