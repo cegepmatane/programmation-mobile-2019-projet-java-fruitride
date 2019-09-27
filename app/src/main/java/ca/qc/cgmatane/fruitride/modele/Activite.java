@@ -5,11 +5,11 @@ import java.util.Calendar;
 public class Activite {
     protected int idActivite;
     protected Calendar date;
-    protected int nombreDePas;
+    protected float nombreDePas;
     protected int nombreDeFruitsRamasses;
     protected int idUtilisateur;
 
-    public Activite(Calendar date, int nombreDePas, int nombreDeFruitsRamasses, int idUtilisateur) {
+    public Activite(Calendar date, float nombreDePas, int nombreDeFruitsRamasses, int idUtilisateur) {
         this.date = date;
         this.nombreDePas = nombreDePas;
         this.nombreDeFruitsRamasses = nombreDeFruitsRamasses;
@@ -32,11 +32,11 @@ public class Activite {
         this.date = date;
     }
 
-    public int getNombreDePas() {
+    public float getNombreDePas() {
         return nombreDePas;
     }
 
-    public void setNombreDePas(int nombreDePas) {
+    public void setNombreDePas(float nombreDePas) {
         this.nombreDePas = nombreDePas;
     }
 

@@ -22,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
+import ca.qc.cgmatane.fruitride.modele.Activite;
 import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
@@ -30,11 +32,18 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     protected boolean doubleTap = false;
     protected SensorManager sensorManager;
-    protected boolean running = false;
+    protected Sensor countSensor;
+    protected boolean premiereOuverture;
     protected TextView nbPas;
+    protected boolean running;
+    protected float etatSensor;
+    protected float etatSensorDemarage;
 
     protected UtilisateurDAO accesseurUtilisateur;
     protected Utilisateur utilisateur;
+
+    protected ActiviteDAO accesseurActivite;
+    protected Activite activite;
 
     protected TextView vueAccueilNomUtilisateur;
     protected ProgressBar vueAccueilBarreDeNiveau;
@@ -45,10 +54,16 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil);
 
+        premiereOuverture = true;
+
         accesseurUtilisateur = UtilisateurDAO.getInstance();
+        accesseurActivite = ActiviteDAO.getInstance();
+
+        accesseurActivite.preparerListeActivite();
         accesseurUtilisateur.preparerListeUtilisateur();
 
         utilisateur = accesseurUtilisateur.recupererListeUtilisateur().get(2);
+        activite = accesseurActivite.recupererListeActivite().get(0);
 
         setProgressBar();
 
@@ -97,6 +112,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         });
 
         nbPas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
+
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
     }
 
@@ -112,9 +128,9 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     protected void onResume() {
         super.onResume();
         running = true;
-        Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
-            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             Toast.makeText(this, "Sensor non trouvé", Toast.LENGTH_SHORT).show();
         }
@@ -124,19 +140,30 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     protected void onPause() {
         super.onPause();
         running = false;
-        //sensorManager.unregisterListener(this);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (running) {
-            nbPas.setText(String.valueOf(sensorEvent.values[0]));
+            if (premiereOuverture) {
+                etatSensorDemarage = sensorEvent.values[0];
+                premiereOuverture = false;
+            }
+            nbPas.setText(String.valueOf((sensorEvent.values[0] - etatSensorDemarage) + activite.getNombreDePas()));
+            etatSensor = sensorEvent.values[0];
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activite.setNombreDePas(etatSensor + activite.getNombreDePas());
     }
 
     @SuppressLint("SetTextI18n")
