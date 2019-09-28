@@ -22,7 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
@@ -37,7 +39,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     protected boolean doubleTap = false;
     protected SensorManager sensorManager;
     protected Sensor countSensor;
-    protected boolean premiereOuverture;
+    protected boolean premiereOuverture = true;
     protected TextView nbPas;
     protected boolean running;
     protected float etatSensor;
@@ -60,10 +62,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         BaseDeDonnee.getInstance(getApplicationContext());
 
-        premiereOuverture = true;
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
         accesseurUtilisateur = UtilisateurDAO.getInstance();
         accesseurActivite = ActiviteDAO.getInstance();
@@ -161,6 +160,9 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
                 premiereOuverture = false;
             }
             nbPas.setText(String.valueOf((sensorEvent.values[0] - etatSensorDemarage) + activite.getNombreDePas()));
+            System.out.println(etatSensorDemarage + "ETAT DU SENSOR AU DEMMARRAGE");
+            System.out.println(sensorEvent.values[0] + "ETAT ACTUEL");
+            System.out.println(activite.getNombreDePas() + "ACTIVITE");
             etatSensor = sensorEvent.values[0];
         }
     }
@@ -173,7 +175,8 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        activite.setNombreDePas(etatSensor + activite.getNombreDePas());
+        //activite.setNombreDePas(etatSensor + activite.getNombreDePas());
+        accesseurActivite.enregistrerNombreDePas((etatSensor - etatSensorDemarage) + activite.getNombreDePas());
     }
 
     @SuppressLint("SetTextI18n")
