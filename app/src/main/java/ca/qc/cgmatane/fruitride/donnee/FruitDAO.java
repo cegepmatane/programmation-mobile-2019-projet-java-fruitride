@@ -22,9 +22,9 @@ public class FruitDAO {
     }
 
     private void preparerListeFruit() {
-        listeFruit.add(new Fruit(48.840981, -67.497192));
-        listeFruit.add(new Fruit(48.840984, -67.500000));
-        listeFruit.add(new Fruit(48.841000, -67.497492));
+        listeFruit.add(new Fruit(48.840981, -67.497192, "apple"));
+        listeFruit.add(new Fruit(48.840984, -67.500000, "pear"));
+        listeFruit.add(new Fruit(48.841000, -67.497492, "pineapple"));
     }
 
     public void ajouterFruit(Fruit fruit) {

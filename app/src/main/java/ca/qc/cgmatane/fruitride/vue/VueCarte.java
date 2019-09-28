@@ -3,6 +3,8 @@ package ca.qc.cgmatane.fruitride.vue;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +30,7 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap gmap;
     private FruitDAO accesseurFruit;
+    private List<Fruit> listeFruit;
 
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
 
@@ -35,6 +38,15 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_carte);
+
+        accesseurFruit = FruitDAO.getInstance();
+        listeFruit = accesseurFruit.recupererListeFruit();
+
+        // chargement des markers personnalisés pour les fruits
+        // pour l'instant obligé dans une classe Activity
+        for (Fruit fruit : listeFruit) {
+            fruit.setLogo(BitmapFactory.decodeResource(getResources(), fruit.getIdResourceLogo()));
+        }
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -47,7 +59,7 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
 
         Button bouton = findViewById(R.id.button2);
 
-        accesseurFruit = FruitDAO.getInstance();
+
 
         final Intent testConfiguration = new Intent(this, VueConfiguration.class);
         bouton.setOnClickListener(new View.OnClickListener() {
@@ -119,15 +131,9 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
         gmap.setMinZoomPreference(12);
         LatLng ny = new LatLng(48.840981, -67.497192);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
-        List<Fruit> listeFruit = accesseurFruit.recupererListeFruit();
-
-
 
         for (Fruit fruit : listeFruit) {
-            gmap.addMarker(
-                    new MarkerOptions().position(
-                            new LatLng(fruit.getLatitude(), fruit.getLongitude())
-                    ).icon(BitmapDescriptorFactory.fromResource(R.drawable.apple)));
+            gmap.addMarker(fruit.getMarkerFruit());
         }
     }
 }
