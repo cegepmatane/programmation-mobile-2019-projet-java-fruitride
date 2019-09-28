@@ -9,12 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".vue.VueConfiguration"></activity>
-
+        <activity android:name=".vue.AjoutUtilisateur"></activity>
+        <activity android:name=".vue.VueConfiguration" />
         <activity android:name=".vue.VueCarte" />
-
         <activity android:name=".vue.VueStatistique" />
-
         <activity android:name=".vue.Accueil">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBp11dGgmttfmzQ6rplhOpYHKK2iUWqPDY" />
