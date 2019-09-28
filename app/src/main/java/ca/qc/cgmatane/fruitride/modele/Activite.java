@@ -16,6 +16,10 @@ public class Activite {
         this.idUtilisateur = idUtilisateur;
     }
 
+    public Activite(float nombreDePas) {
+        this.nombreDePas = nombreDePas;
+    }
+
     public int getIdActivite() {
         return idActivite;
     }

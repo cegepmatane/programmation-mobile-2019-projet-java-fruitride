@@ -30,9 +30,13 @@ public class BaseDeDonnee extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String CREATE_TABLE_ACTIVITE = "create table if not exists activite(id_activite INTEGER PRIMARY KEY, date DATE" +
+                ", nb_pas FLOAT, nb_fruit INT, id_utilisateur INTEGER, FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur))";
         String CREATE_TABLE = "create table if not exists utilisateur(id_utilisateur INTEGER PRIMARY KEY, nom TEXT" +
                 ", prenom TEXT, niveau INT, experience INT)";
         db.execSQL(CREATE_TABLE);
+        System.out.println("JE SUIS ICI");
+        db.execSQL(CREATE_TABLE_ACTIVITE);
     }
 
     @Override

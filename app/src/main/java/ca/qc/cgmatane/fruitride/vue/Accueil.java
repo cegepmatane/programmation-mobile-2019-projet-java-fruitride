@@ -22,6 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
 import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
@@ -62,13 +64,14 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
         accesseurUtilisateur = UtilisateurDAO.getInstance();
         accesseurActivite = ActiviteDAO.getInstance();
 
-        accesseurActivite.preparerListeActivite();
-
         utilisateur = accesseurUtilisateur.recupererUtilisateur();
-        activite = accesseurActivite.recupererListeActivite().get(0);
+        accesseurActivite.isActiviteAjourdhui(new Activite(Calendar.getInstance(),0,
+                0,utilisateur.getId_utilisateur()));
+        activite = accesseurActivite.recupererActivite();
 
         setProgressBar();
 
