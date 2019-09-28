@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.hardware.Sensor;
@@ -55,6 +56,8 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.accueil);
 
         premiereOuverture = true;
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         accesseurUtilisateur = UtilisateurDAO.getInstance();
         accesseurActivite = ActiviteDAO.getInstance();
