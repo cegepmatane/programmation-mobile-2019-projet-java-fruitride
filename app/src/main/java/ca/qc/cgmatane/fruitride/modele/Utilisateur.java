@@ -7,10 +7,10 @@ public class Utilisateur {
     protected String nom;
     protected String prenom;
     protected int niveau;
-    protected float experience;
+    protected int experience;
     protected int id_utilisateur;
 
-    public Utilisateur(String nom, String prenom, int niveau, float experience, int id_utilisateur) {
+    public Utilisateur(String nom, String prenom, int niveau, int experience, int id_utilisateur) {
         this.nom = nom;
         this.prenom = prenom;
         this.niveau = niveau;
@@ -42,11 +42,11 @@ public class Utilisateur {
         this.niveau = niveau;
     }
 
-    public float getExperience() {
+    public int getExperience() {
         return experience;
     }
 
-    public void setExperience(float experience) {
+    public void setExperience(int intexperience) {
         this.experience = experience;
     }
 

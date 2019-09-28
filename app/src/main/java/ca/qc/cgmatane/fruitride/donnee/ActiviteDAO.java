@@ -21,7 +21,7 @@ public class ActiviteDAO {
         listeActivite = new ArrayList<>();
     }
 
-    private void preparerListeActivite() {
+    public void preparerListeActivite() {
         listeActivite.add(new Activite(Calendar.getInstance(), 1234, 2, 1));
         listeActivite.add(new Activite(Calendar.getInstance(), 9765, 4, 1));
         listeActivite.add(new Activite(Calendar.getInstance(), 1002, 0, 1));
