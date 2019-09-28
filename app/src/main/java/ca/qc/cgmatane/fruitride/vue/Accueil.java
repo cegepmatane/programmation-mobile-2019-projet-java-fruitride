@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
+import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Activite;
 import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
@@ -55,6 +56,8 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil);
 
+        BaseDeDonnee.getInstance(getApplicationContext());
+
         premiereOuverture = true;
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -63,9 +66,8 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         accesseurActivite = ActiviteDAO.getInstance();
 
         accesseurActivite.preparerListeActivite();
-        accesseurUtilisateur.preparerListeUtilisateur();
 
-        utilisateur = accesseurUtilisateur.recupererListeUtilisateur().get(2);
+        utilisateur = accesseurUtilisateur.recupererUtilisateur();
         activite = accesseurActivite.recupererListeActivite().get(0);
 
         setProgressBar();
@@ -74,7 +76,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         Button bouton = findViewById(R.id.button);
         final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
-        final Intent intent = new Intent(this, VueCarte.class);
+        final Intent intent = new Intent(this, AjoutUtilisateur.class);
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,9 +88,11 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
 
+        final Intent intent3 = new Intent(this, VueCarte.class);
+
         monLayout.setOnTouchListener(new ListenerSwipe(Accueil.this) {
             public void onSwipeRight() {
-                startActivity(intent);
+                startActivity(intent3);
             }
             public void onSwipeLeft() {
                 startActivity(intentionNaviguerVueConfiguration);

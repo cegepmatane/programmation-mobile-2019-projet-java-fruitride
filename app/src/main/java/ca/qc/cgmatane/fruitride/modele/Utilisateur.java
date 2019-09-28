@@ -10,6 +10,12 @@ public class Utilisateur {
     protected int experience;
     protected int id_utilisateur;
 
+    public Utilisateur(String nom, String prenom, int id_utilisateur) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.id_utilisateur = id_utilisateur;
+    }
+
     public Utilisateur(String nom, String prenom, int niveau, int experience, int id_utilisateur) {
         this.nom = nom;
         this.prenom = prenom;

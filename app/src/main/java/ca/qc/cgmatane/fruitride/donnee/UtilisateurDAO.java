@@ -1,5 +1,9 @@
 package ca.qc.cgmatane.fruitride.donnee;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,20 +14,11 @@ public class UtilisateurDAO {
     private static UtilisateurDAO instance = null;
     protected List<Utilisateur> listeUtilisateur;
 
+    private BaseDeDonnee accesseurBaseDeDonnees;
+
     public UtilisateurDAO() {
+        this.accesseurBaseDeDonnees = BaseDeDonnee.getInstance();
         listeUtilisateur = new ArrayList<>();
-    }
-
-    public List<HashMap<String,String>> recupererListeUtilisateurPourAdapteur() {
-
-        List<HashMap<String,String>> listeUtilisateurPourAdapteur =
-                new ArrayList<HashMap<String, String>>();
-
-        for (Utilisateur utilisateur :
-                listeUtilisateur) {
-            listeUtilisateurPourAdapteur.add(utilisateur.obtenirUtilisateurPourAdapteur());
-        }
-        return listeUtilisateurPourAdapteur;
     }
 
     public Utilisateur chercherUtilisateurParId(int id_utilisateur) {
@@ -36,7 +31,14 @@ public class UtilisateurDAO {
     }
 
     public void ajouterUtilisateur(Utilisateur utilisateur) {
-        listeUtilisateur.add(utilisateur);
+        SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
+        SQLiteStatement query = db.compileStatement("INSERT INTO utilisateur(id_utilisateur" +
+                ", nom, prenom, niveau, experience) VALUES(null,?,?,?,?)");
+        query.bindString(1, utilisateur.getNom());
+        query.bindString(2, utilisateur.getPrenom());
+        query.bindString(3, "0");
+        query.bindString(4, "0");
+        query.execute();
     }
 
     public void modifierUtilisateur(Utilisateur utilisateur) {
@@ -48,16 +50,32 @@ public class UtilisateurDAO {
         }
     }
 
-    public List<Utilisateur> recupererListeUtilisateur() {
-        return listeUtilisateur;
+    public Utilisateur recupererUtilisateur() {
+
+        String LISTER_UTILISATEUR = "SELECT * FROM utilisateur";
+
+        Cursor curseur = accesseurBaseDeDonnees.getReadableDatabase().rawQuery(LISTER_UTILISATEUR, null);
+
+        int indexId_utilisateur = curseur.getColumnIndex("id_utilisateur");
+        int indexNom = curseur.getColumnIndex("nom");
+        int indexPrenom = curseur.getColumnIndex("prenom");
+
+        for (curseur.moveToFirst();!curseur.isAfterLast();curseur.moveToNext()) {
+            int id_utilisateur = curseur.getInt(indexId_utilisateur);
+            String nom = curseur.getString(indexNom);
+            String prenom = curseur.getString(indexPrenom);
+            Utilisateur utilisateur = new Utilisateur(nom, prenom, id_utilisateur);
+            return new Utilisateur(nom, prenom, id_utilisateur);
+        }
+        return new Utilisateur("toto", "test", 0);
     }
 
-    public void preparerListeUtilisateur() {
-        listeUtilisateur.add(new Utilisateur("Chateau", "Lucas", 15, 1550, 1));
-        listeUtilisateur.add(new Utilisateur("Barcon", "Lucien", 16, 1650, 2));
-        listeUtilisateur.add(new Utilisateur("Cousson", "Théo", 13, 1380, 3));
-        listeUtilisateur.add(new Utilisateur("Hug", "Loik", 14, 1450, 4));
-    }
+    //public void preparerListeUtilisateur() {
+    //    listeUtilisateur.add(new Utilisateur("Chateau", "Lucas", 15, 1550, 1));
+    //    listeUtilisateur.add(new Utilisateur("Barcon", "Lucien", 16, 1650, 2));
+    //    listeUtilisateur.add(new Utilisateur("Cousson", "Théo", 13, 1380, 3));
+    //    listeUtilisateur.add(new Utilisateur("Hug", "Loik", 14, 1450, 4));
+    //}
 
     public static UtilisateurDAO getInstance() {
         if (null == instance)
