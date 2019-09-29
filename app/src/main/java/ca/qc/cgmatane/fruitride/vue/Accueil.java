@@ -37,11 +37,16 @@ import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     protected boolean doubleTap = false;
+    protected boolean premiereOuverture = true;
+    protected boolean running;
+
     protected SensorManager sensorManager;
     protected Sensor countSensor;
-    protected boolean premiereOuverture = true;
+
     protected TextView nbPas;
-    protected boolean running;
+    protected TextView vueAccueilNomUtilisateur;
+    protected ProgressBar vueAccueilBarreDeNiveau;
+
     protected float etatSensor;
     protected float etatSensorDemarage;
 
@@ -51,10 +56,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     protected ActiviteDAO accesseurActivite;
     protected Activite activite;
 
-    protected TextView vueAccueilNomUtilisateur;
-    protected ProgressBar vueAccueilBarreDeNiveau;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,37 +66,58 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        accesseurUtilisateur = UtilisateurDAO.getInstance();
-        accesseurActivite = ActiviteDAO.getInstance();
-
-        utilisateur = accesseurUtilisateur.recupererUtilisateur();
-        accesseurActivite.isActiviteAjourdhui(new Activite(Calendar.getInstance(),0,
-                0,utilisateur.getId_utilisateur()));
-        activite = accesseurActivite.recupererActivite();
+        setUtilisateur();
+        setActivite();
 
         setProgressBar();
 
         afficherUtilisateur();
 
-        Button bouton = findViewById(R.id.button);
+        setListener();
+
+        nbPas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
+        sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+    }
+
+    public void setProgressBar() {
+        vueAccueilBarreDeNiveau = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
+        vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
+        vueAccueilBarreDeNiveau.setScaleY(5f);
+        vueAccueilBarreDeNiveau.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+    }
+
+    public void setUtilisateur() {
+        accesseurUtilisateur = UtilisateurDAO.getInstance();
+        utilisateur = accesseurUtilisateur.recupererUtilisateur();
+    }
+
+    public void setActivite() {
+        accesseurActivite = ActiviteDAO.getInstance();
+        accesseurActivite.isActiviteAjourdhui(new Activite(Calendar.getInstance(),0,
+                0,utilisateur.getId_utilisateur()));
+        activite = accesseurActivite.recupererActivite();
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void setListener() {
         final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
-        final Intent intent = new Intent(this, AjoutUtilisateur.class);
+        final Intent intentionNaviguerVueAjoutUtilisateur = new Intent(this, AjoutUtilisateur.class);
+        final Intent intentionNaviguerVueStatistiques = new Intent(this, VueStatistique.class);
+        final Intent intentionNaviguerVueCarte = new Intent(this, VueCarte.class);
+
+        Button bouton = findViewById(R.id.button);
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(intent);
+                startActivity(intentionNaviguerVueAjoutUtilisateur);
             }
         });
 
-        final Intent intent2 = new Intent(this, VueStatistique.class);
-
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
-
-        final Intent intent3 = new Intent(this, VueCarte.class);
 
         monLayout.setOnTouchListener(new ListenerSwipe(Accueil.this) {
             public void onSwipeRight() {
-                startActivity(intent3);
+                startActivity(intentionNaviguerVueCarte);
             }
             public void onSwipeLeft() {
                 startActivity(intentionNaviguerVueConfiguration);
@@ -105,7 +128,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (doubleTap) {
-                    startActivity(intent2);
+                    startActivity(intentionNaviguerVueStatistiques);
                 } else {
                     doubleTap = true;
                     Handler handler = new Handler();
@@ -119,18 +142,6 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
                 return false;
             }
         });
-
-        nbPas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
-
-        sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-    }
-
-    public void setProgressBar() {
-        vueAccueilBarreDeNiveau = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
-
-        vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
-        vueAccueilBarreDeNiveau.setScaleY(5f);
-        vueAccueilBarreDeNiveau.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -160,29 +171,22 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
                 premiereOuverture = false;
             }
             nbPas.setText(String.valueOf((sensorEvent.values[0] - etatSensorDemarage) + activite.getNombreDePas()));
-            System.out.println(etatSensorDemarage + "ETAT DU SENSOR AU DEMMARRAGE");
-            System.out.println(sensorEvent.values[0] + "ETAT ACTUEL");
-            System.out.println(activite.getNombreDePas() + "ACTIVITE");
             etatSensor = sensorEvent.values[0];
         }
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int i) {}
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //activite.setNombreDePas(etatSensor + activite.getNombreDePas());
         accesseurActivite.enregistrerNombreDePas((etatSensor - etatSensorDemarage) + activite.getNombreDePas());
     }
 
     @SuppressLint("SetTextI18n")
     protected void afficherUtilisateur() {
         vueAccueilNomUtilisateur = (TextView) findViewById(R.id.vue_score_label_nom_joueur);
-
         vueAccueilNomUtilisateur.setText(utilisateur.getNom() + " " + utilisateur.getPrenom());
     }
 }
