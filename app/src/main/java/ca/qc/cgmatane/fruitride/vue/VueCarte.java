@@ -1,30 +1,23 @@
 package ca.qc.cgmatane.fruitride.vue;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
@@ -38,16 +31,15 @@ import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 
 public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
 
-    private MapView vueCarteElementMapView;
-    private GoogleMap googleMap;
     private FruitDAO accesseurFruit;
     private List<Fruit> listeFruit;
 
-    Location currentLocation;
+    Location localisationActuelle;
     FusedLocationProviderClient fusedLocationProviderClient;
-    private static final int REQUEST_CODE = 101;
 
-    private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
+    private static final int CODE_REQUETE_AUTORISATION_LOCALISATION = 101;
+    private static final int ZOOM_PAR_DEFAUT = 15;
+    private static final int ZOOM_MINIMUM = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +47,7 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.vue_carte);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        fetchLastLocation();
+        recupererLocalisationEtDemanderAutorisationSiBesoin();
 
         accesseurFruit = FruitDAO.getInstance();
         listeFruit = accesseurFruit.recupererListeFruit();
@@ -65,17 +57,6 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
         for (Fruit fruit : listeFruit) {
             fruit.setLogo(BitmapFactory.decodeResource(getResources(), fruit.getIdResourceLogo()));
         }
-
-        /*Bundle mapViewBundle = null;
-        if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        }
-
-        vueCarteElementMapView = findViewById(R.id.vue_carte_element_map_view);
-        vueCarteElementMapView.onCreate(mapViewBundle);
-        vueCarteElementMapView.getMapAsync(this);
-
-        Button bouton = findViewById(R.id.button2);*/
 
         final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
 
@@ -89,18 +70,21 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
-    private void fetchLastLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+    private void recupererLocalisationEtDemanderAutorisationSiBesoin() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {
+                    Manifest.permission.ACCESS_FINE_LOCATION }
+                    , CODE_REQUETE_AUTORISATION_LOCALISATION );
         }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    currentLocation = location;
-                    Toast.makeText(getApplicationContext(), currentLocation.getLatitude()
-                            + " " + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+                    localisationActuelle = location;
+                    /*Toast.makeText(getApplicationContext(), localisationActuelle.getLatitude()
+                            + " " + localisationActuelle.getLongitude(), Toast.LENGTH_SHORT).show();*/
                     SupportMapFragment supportMapFragment =
                             (SupportMapFragment) getSupportFragmentManager()
                                     .findFragmentById(R.id.vue_carte_element_map_view);
@@ -112,32 +96,27 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        /*this.googleMap = googleMap;
-        this.
-        LatLng ny = new LatLng(48.840981, -67.497192);
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(ny));*/
-
-        googleMap.setMinZoomPreference(12);
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        googleMap.setMinZoomPreference(ZOOM_MINIMUM);
+        LatLng localisationActuelleLatLng =
+                new LatLng(localisationActuelle.getLatitude(), localisationActuelle.getLongitude());
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(localisationActuelleLatLng));
+        googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(localisationActuelleLatLng, ZOOM_PAR_DEFAUT));
         googleMap.setMyLocationEnabled(true);
 
         for (Fruit fruit : listeFruit) {
             googleMap.addMarker(fruit.getMarkerFruit());
         }
-
-
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    fetchLastLocation();
-                }
-                break;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == CODE_REQUETE_AUTORISATION_LOCALISATION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                recupererLocalisationEtDemanderAutorisationSiBesoin();
+            }
         }
     }
 }
