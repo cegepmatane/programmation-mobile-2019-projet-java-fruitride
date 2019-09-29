@@ -33,12 +33,6 @@ public class ActiviteDAO {
         activiteDuJour = new Activite(0);
     }
 
-    //public void preparerListeActivite() {
-    //    listeActivite.add(new Activite(Calendar.getInstance(), 1234, 2, 1));
-    //    listeActivite.add(new Activite(Calendar.getInstance(), 9765, 4, 1));
-    //    listeActivite.add(new Activite(Calendar.getInstance(), 1002, 0, 1));
-    //}
-
     public Activite recupererActivite() {
 
         String LISTER_ACTIVITE = "SELECT * FROM activite WHERE date = '" + dateDuJour() + "'";
@@ -49,7 +43,6 @@ public class ActiviteDAO {
 
         for (curseur.moveToFirst();!curseur.isAfterLast();curseur.moveToNext()) {
             int nb_pas = curseur.getInt(indexId_nbPas);
-            System.out.println(nb_pas + " EST LE NOMBRE DE PAS");
             activiteDuJour.setNombreDePas(nb_pas);
             return activiteDuJour;
         }
@@ -57,41 +50,32 @@ public class ActiviteDAO {
     }
 
     public void ajouterActivite(Activite activite) {
-
         SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
         SQLiteStatement query = db.compileStatement("INSERT INTO activite(id_activite" +
-                ", date, nb_pas, nb_fruit, id_utilisateur) VALUES(null,?,?,?,?,?)");
-        query.bindString(1, activite.getIdActivite() + "");
-        query.bindString(2, activite.getDate() + "");
-        query.bindString(3, activite.getNombreDePas() + "");
-        query.bindString(4, activite.getNombreDeFruitsRamasses() + "");
-        query.bindString(5, activite.getIdUtilisateur() + "");
+                ", date, nb_pas, nb_fruit, id_utilisateur) VALUES(null,?,?,?,?)");
+        query.bindString(1, dateDuJour());
+        query.bindString(2, activite.getNombreDePas() + "");
+        query.bindString(3, activite.getNombreDeFruitsRamasses() + "");
+        query.bindString(4, activite.getIdUtilisateur() + "");
         query.execute();
     }
 
     public void isActiviteAjourdhui(Activite activite) {
-
         String LISTER_ACTIVITE = "SELECT * FROM activite WHERE date ='" + dateDuJour() + "'";
-        Cursor curseur = accesseurBaseDeDonnees.getReadableDatabase().rawQuery(LISTER_ACTIVITE, null);
+        Cursor curseur = accesseurBaseDeDonnees.getReadableDatabase().rawQuery(
+                LISTER_ACTIVITE, null);
         System.out.println(dateDuJour());
         System.out.println(curseur.getCount());
         if (!(curseur.getCount() > 0)) {
             activiteDuJour = new Activite(activite.getNombreDePas());
-            SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
-            SQLiteStatement query = db.compileStatement("INSERT INTO activite(id_activite" +
-                    ", date, nb_pas, nb_fruit, id_utilisateur) VALUES(null,?,?,?,?)");
-            query.bindString(1, dateDuJour());
-            query.bindString(2, activite.getNombreDePas() + "");
-            query.bindString(3, activite.getNombreDeFruitsRamasses() + "");
-            query.bindString(4, activite.getIdUtilisateur() + "");
-            query.execute();
+            ajouterActivite(activite);
         }
     }
 
     public void enregistrerNombreDePas(float nbPas) {
-        System.out.println("ENREGISTREMENT DU NOMBRE DE PAS");
         SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
-        SQLiteStatement query = db.compileStatement("UPDATE activite SET nb_pas = " + nbPas + " WHERE date = '" + dateDuJour() + "'");
+        SQLiteStatement query = db.compileStatement("UPDATE activite SET nb_pas = " + nbPas
+                + " WHERE date = '" + dateDuJour() + "'");
         query.execute();
     }
 
@@ -112,8 +96,6 @@ public class ActiviteDAO {
         int jour = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         String date = annee + "-" + mois + "-" + jour;
-
-        System.out.println(date + " C'EST LA DATE");
 
         return date;
     }

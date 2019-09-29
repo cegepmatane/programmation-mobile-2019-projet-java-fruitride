@@ -70,13 +70,6 @@ public class UtilisateurDAO {
         return new Utilisateur("toto", "test", 0);
     }
 
-    //public void preparerListeUtilisateur() {
-    //    listeUtilisateur.add(new Utilisateur("Chateau", "Lucas", 15, 1550, 1));
-    //    listeUtilisateur.add(new Utilisateur("Barcon", "Lucien", 16, 1650, 2));
-    //    listeUtilisateur.add(new Utilisateur("Cousson", "Théo", 13, 1380, 3));
-    //    listeUtilisateur.add(new Utilisateur("Hug", "Loik", 14, 1450, 4));
-    //}
-
     public static UtilisateurDAO getInstance() {
         if (null == instance)
             instance = new UtilisateurDAO();
