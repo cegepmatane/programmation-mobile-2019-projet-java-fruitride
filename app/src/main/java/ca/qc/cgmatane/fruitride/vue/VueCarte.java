@@ -3,20 +3,15 @@ package ca.qc.cgmatane.fruitride.vue;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -25,10 +20,11 @@ import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
 import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 
+
 public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
 
-    private MapView mapView;
-    private GoogleMap gmap;
+    private MapView vueCarteElementMapView;
+    private GoogleMap googleMap;
     private FruitDAO accesseurFruit;
     private List<Fruit> listeFruit;
 
@@ -53,23 +49,12 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
-        mapView = findViewById(R.id.mapView);
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
+        vueCarteElementMapView = findViewById(R.id.vue_carte_element_map_view);
+        vueCarteElementMapView.onCreate(mapViewBundle);
+        vueCarteElementMapView.getMapAsync(this);
 
         Button bouton = findViewById(R.id.button2);
 
-
-
-        final Intent testConfiguration = new Intent(this, VueConfiguration.class);
-        bouton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(testConfiguration);
-            }
-        });
-
-        // final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
         final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
 
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(VueCarte.this) {
@@ -81,6 +66,19 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        this.googleMap.setMinZoomPreference(12);
+        LatLng ny = new LatLng(48.840981, -67.497192);
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(ny));
+
+        for (Fruit fruit : listeFruit) {
+            this.googleMap.addMarker(fruit.getMarkerFruit());
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -91,49 +89,38 @@ public class VueCarte extends AppCompatActivity implements OnMapReadyCallback {
             outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
         }
 
-        mapView.onSaveInstanceState(mapViewBundle);
+        vueCarteElementMapView.onSaveInstanceState(mapViewBundle);
     }
     @Override
     protected void onResume() {
         super.onResume();
-        mapView.onResume();
+        vueCarteElementMapView.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mapView.onStart();
+        vueCarteElementMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mapView.onStop();
+        vueCarteElementMapView.onStop();
     }
     @Override
     protected void onPause() {
-        mapView.onPause();
+        vueCarteElementMapView.onPause();
         super.onPause();
     }
     @Override
     protected void onDestroy() {
-        mapView.onDestroy();
+        vueCarteElementMapView.onDestroy();
         super.onDestroy();
     }
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
-    }
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        gmap = googleMap;
-        gmap.setMinZoomPreference(12);
-        LatLng ny = new LatLng(48.840981, -67.497192);
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
-
-        for (Fruit fruit : listeFruit) {
-            gmap.addMarker(fruit.getMarkerFruit());
-        }
+        vueCarteElementMapView.onLowMemory();
     }
 }
