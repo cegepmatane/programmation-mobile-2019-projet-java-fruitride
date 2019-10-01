@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.animation.AnimationUtils;
+import android.R.anim.*;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -84,8 +86,8 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
 
             }
             public void onSwipeLeft() {
-                //startActivity(intentionNaviguerVuePrincipale);
                 intentionNaviguerVuePrincipale();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
     }

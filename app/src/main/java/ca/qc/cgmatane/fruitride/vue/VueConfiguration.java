@@ -18,6 +18,7 @@ public class VueConfiguration extends AppCompatActivity {
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(VueConfiguration.this) {
             public void onSwipeRight() {
                 intentionNaviguerVuePrincipale();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
             public void onSwipeLeft() {
             }

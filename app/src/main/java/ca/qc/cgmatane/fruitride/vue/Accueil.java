@@ -117,9 +117,11 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         monLayout.setOnTouchListener(new ListenerSwipe(Accueil.this) {
             public void onSwipeRight() {
                 startActivity(intentionNaviguerVueCarte);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
             public void onSwipeLeft() {
                 startActivity(intentionNaviguerVueConfiguration);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
 
