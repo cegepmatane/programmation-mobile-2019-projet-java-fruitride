@@ -71,5 +71,6 @@ public class AjoutUtilisateur extends AppCompatActivity {
     private void naviguerRetourClub() {
         Intent retourAccueil = new Intent(this, Accueil.class);
         startActivity(retourAccueil);
+        this.finish();
     }
 }

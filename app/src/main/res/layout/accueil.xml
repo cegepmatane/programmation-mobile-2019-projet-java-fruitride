@@ -7,20 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".vue.Accueil">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="158dp"
-        android:layout_marginTop="62dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginBottom="133dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vue_score_barre_de_niveau" />
-
     <ProgressBar
         android:id="@+id/vue_score_barre_de_niveau"
         style="?android:attr/progressBarStyleHorizontal"
