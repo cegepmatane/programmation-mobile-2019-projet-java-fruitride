@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -48,6 +49,25 @@ public class ActiviteDAO {
         return new Activite(0);
     }
 
+    public int recupererNombrePas(int nombreDeJourAvantAujourdhui) {
+
+        System.out.println("DAODAODOA");
+
+        String ACTIVITE = "SELECT * FROM activite WHERE date = '"+ dateXJour(nombreDeJourAvantAujourdhui) +"'";
+
+        Cursor curseur = accesseurBaseDeDonnees.getReadableDatabase().rawQuery(ACTIVITE, null);
+
+        int indexId_nbPas = curseur.getColumnIndex("nb_pas");
+
+        int nombrePas = 0;
+
+        if (curseur.getCount()!=0) {
+            nombrePas = curseur.getInt(indexId_nbPas);
+        }
+
+        return nombrePas;
+    }
+
     public void ajouterActivite(Activite activite) {
         SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
         SQLiteStatement query = db.compileStatement("INSERT INTO activite(id_activite" +
@@ -72,6 +92,7 @@ public class ActiviteDAO {
             ajouterActivite(activite);
         }
     }
+
 
     public void enregistrerNombreDePas(float nbPas) {
         System.out.println("MISE A JOUR NB PAS");
@@ -101,6 +122,19 @@ public class ActiviteDAO {
 
         System.out.println("LA DATE DU JOUR EST : " + date);
 
+        return date;
+    }
+
+    public String dateXJour(int nombreDeJour){
+        int annee = Calendar.getInstance().get(Calendar.YEAR);
+        String mois = Integer.toString(Calendar.getInstance().get(Calendar.MONTH) + 1);
+        if (mois.length() < 2) {
+            mois = "0" + mois;
+        }
+        int jour = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        String date = annee + "-" + mois + "-" + jour + " + interval" + nombreDeJour +" day";
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + date);
         return date;
     }
 }

@@ -100,17 +100,9 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     @SuppressLint("ClickableViewAccessibility")
     public void setListener() {
         final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
-        final Intent intentionNaviguerVueAjoutUtilisateur = new Intent(this, AjoutUtilisateur.class);
         final Intent intentionNaviguerVueStatistiques = new Intent(this, VueStatistique.class);
         final Intent intentionNaviguerVueCarte = new Intent(this, VueCarte.class);
 
-        Button bouton = findViewById(R.id.button);
-        bouton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(intentionNaviguerVueAjoutUtilisateur);
-            }
-        });
 
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
 
