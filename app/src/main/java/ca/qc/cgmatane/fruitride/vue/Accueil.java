@@ -22,9 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
@@ -76,6 +74,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         setListener();
 
         nbPas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
+        nbPas.setText(Float.toString(activite.getNombreDePas()));
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
     }
 

@@ -4,13 +4,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import ca.qc.cgmatane.fruitride.modele.Activite;
-import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
 public class ActiviteDAO {
 
@@ -43,6 +41,7 @@ public class ActiviteDAO {
 
         for (curseur.moveToFirst();!curseur.isAfterLast();curseur.moveToNext()) {
             int nb_pas = curseur.getInt(indexId_nbPas);
+            System.out.println("LE NOMBRE DE PAS EST : " + nb_pas);
             activiteDuJour.setNombreDePas(nb_pas);
             return activiteDuJour;
         }
@@ -64,15 +63,18 @@ public class ActiviteDAO {
         String LISTER_ACTIVITE = "SELECT * FROM activite WHERE date ='" + dateDuJour() + "'";
         Cursor curseur = accesseurBaseDeDonnees.getReadableDatabase().rawQuery(
                 LISTER_ACTIVITE, null);
-        System.out.println(dateDuJour());
-        System.out.println(curseur.getCount());
+
+        System.out.println("IL Y A " + curseur.getCount() + " ACTIVITE AUJOURD'HUI");
+
         if (!(curseur.getCount() > 0)) {
+            System.out.println("AJOUT D'UNE NOUVELLE ACTIVITEE");
             activiteDuJour = new Activite(activite.getNombreDePas());
             ajouterActivite(activite);
         }
     }
 
     public void enregistrerNombreDePas(float nbPas) {
+        System.out.println("MISE A JOUR NB PAS");
         SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
         SQLiteStatement query = db.compileStatement("UPDATE activite SET nb_pas = " + nbPas
                 + " WHERE date = '" + dateDuJour() + "'");
@@ -96,6 +98,8 @@ public class ActiviteDAO {
         int jour = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         String date = annee + "-" + mois + "-" + jour;
+
+        System.out.println("LA DATE DU JOUR EST : " + date);
 
         return date;
     }

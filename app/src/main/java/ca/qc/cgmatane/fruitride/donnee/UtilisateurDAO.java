@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
