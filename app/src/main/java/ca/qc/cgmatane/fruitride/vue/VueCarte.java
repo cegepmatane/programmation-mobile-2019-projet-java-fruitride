@@ -10,6 +10,9 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,6 +41,7 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
     FusedLocationProviderClient fusedLocationProviderClient;
 
     private static final int CODE_REQUETE_AUTORISATION_LOCALISATION = 101;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int ZOOM_PAR_DEFAUT = 15;
     private static final int ZOOM_MINIMUM = 12;
 
@@ -59,6 +63,14 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
         }
 
         //final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
+
+        Button bouton = findViewById(R.id.button2);
+        bouton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                dispatchTakePictureIntent();
+            }
+        });
 
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(VueCarte.this) {
             public void onSwipeRight() {
@@ -124,4 +136,13 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
             }
         }
     }
+
+
+    /*private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }*/
+
 }
