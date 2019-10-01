@@ -58,16 +58,21 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
             fruit.setLogo(BitmapFactory.decodeResource(getResources(), fruit.getIdResourceLogo()));
         }
 
-        final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
+        //final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
 
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(VueCarte.this) {
             public void onSwipeRight() {
 
             }
             public void onSwipeLeft() {
-                startActivity(intentionNaviguerVuePrincipale);
+                //startActivity(intentionNaviguerVuePrincipale);
+                intentionNaviguerVuePrincipale();
             }
         });
+    }
+
+    protected void intentionNaviguerVuePrincipale() {
+        this.finish();
     }
 
     private void recupererLocalisationEtDemanderAutorisationSiBesoin() {
