@@ -20,15 +20,21 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
+import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 
 
 public class VueStatistique extends AppCompatActivity {
     private AnyChartView columnChart;
+    protected ActiviteDAO accesseurActivite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_statistique);
+        BaseDeDonnee.getInstance(getApplicationContext());
+        accesseurActivite = ActiviteDAO.getInstance();
+
         ArrayList<String> listeJour = recupererListeJourDeLaSemainePasser();
         columnChart = (AnyChartView)findViewById(R.id.columnChart);
         columnChart.setProgressBar(findViewById(R.id.progress_bar));
@@ -46,13 +52,11 @@ public class VueStatistique extends AppCompatActivity {
 
     private ArrayList getData(ArrayList<String> listeJour){
         ArrayList<DataEntry> entries = new ArrayList<>();
-        entries.add(new ValueDataEntry(listeJour.get(0), 500));
-        entries.add(new ValueDataEntry(listeJour.get(1), 10562));
-        entries.add(new ValueDataEntry(listeJour.get(2), 7802));
-        entries.add(new ValueDataEntry(listeJour.get(3), 2155));
-        entries.add(new ValueDataEntry(listeJour.get(4), 21502));
-        entries.add(new ValueDataEntry(listeJour.get(5), 650));
-        entries.add(new ValueDataEntry(listeJour.get(6), 8421));
+        for (int i=0; i<7;i++){
+            System.out.println("OKOKOKOKOKOKKKOKOK  " + i);
+            int nbPas=accesseurActivite.recupererNombrePas(i);
+            entries.add(new ValueDataEntry(listeJour.get(i), nbPas));
+        }
         return entries;
     }
 

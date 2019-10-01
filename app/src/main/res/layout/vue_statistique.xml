@@ -8,10 +8,15 @@
 
     <com.anychart.AnyChartView
         android:id="@+id/columnChart"
-        android:layout_width="411dp"
-        android:layout_height="380dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="9dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+        app:layout_constraintVertical_bias="0.958">
 
     </com.anychart.AnyChartView>
 
