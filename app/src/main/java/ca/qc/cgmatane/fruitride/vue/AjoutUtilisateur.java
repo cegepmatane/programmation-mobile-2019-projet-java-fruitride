@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
@@ -23,6 +24,22 @@ public class AjoutUtilisateur extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_ajout_utilisateur);
+
+        BaseDeDonnee.getInstance(getApplicationContext());
+
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            //Checker si utilisateur dans BDD plutot que si premier démarrage
+        } else {
+            startActivity(new Intent(this, Accueil.class));
+            this.finish();
+        }
+
+
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).commit();
 
         vueAjouterUtilisateurChampNom = (EditText) findViewById(R.id.vue_ajouter_utilisateur_champ_nom);
         getVueAjouterUtilisateurChampPrenom = (EditText) findViewById(R.id.vue_ajouter_utilisateur_champ_prenom);
