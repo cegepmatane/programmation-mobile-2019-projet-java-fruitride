@@ -52,7 +52,7 @@ public class Utilisateur {
         return experience;
     }
 
-    public void setExperience(int intexperience) {
+    public void setExperience(int experience) {
         this.experience = experience;
     }
 

@@ -169,7 +169,10 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
                 etatSensorDemarage = sensorEvent.values[0];
                 premiereOuverture = false;
             }
-            nbPas.setText(String.valueOf((sensorEvent.values[0] - etatSensorDemarage) + activite.getNombreDePas()));
+            float nombreDePas = (sensorEvent.values[0] - etatSensorDemarage) + activite.getNombreDePas();
+            nbPas.setText(String.valueOf(nombreDePas));
+            utilisateur.setExperience(Math.round(utilisateur.getExperience() + (nombreDePas - utilisateur.getExperience())));
+            vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
             etatSensor = sensorEvent.values[0];
         }
     }
@@ -181,6 +184,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     protected void onDestroy() {
         super.onDestroy();
         accesseurActivite.enregistrerNombreDePas((etatSensor - etatSensorDemarage) + activite.getNombreDePas());
+        accesseurUtilisateur.enregistrerExperience(utilisateur);
     }
 
     @SuppressLint("SetTextI18n")

@@ -74,4 +74,12 @@ public class UtilisateurDAO {
             instance = new UtilisateurDAO();
         return instance;
     }
+
+    public void enregistrerExperience(Utilisateur utilisateur) {
+        System.out.println("MISE A JOUR XP UTILISATEUR");
+        SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
+        SQLiteStatement query = db.compileStatement("UPDATE utilisateur SET experience = " + utilisateur.getExperience()
+                + " WHERE id_utilisateur = '" + utilisateur.getId_utilisateur() + "'");
+        query.execute();
+    }
 }
