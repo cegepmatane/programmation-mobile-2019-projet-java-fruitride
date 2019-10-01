@@ -7,12 +7,14 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -36,11 +38,14 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
 
     private FruitDAO accesseurFruit;
     private List<Fruit> listeFruit;
+    private ImageView imageView;
 
     Location localisationActuelle;
     FusedLocationProviderClient fusedLocationProviderClient;
 
     private static final int CODE_REQUETE_AUTORISATION_LOCALISATION = 101;
+    private static final int CODE_REQUETE_AUTORISATION_CAMERA = 102;
+    private static final int CODE_REQUETE_AUTORISATION_STOCKAGE = 103;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int ZOOM_PAR_DEFAUT = 15;
     private static final int ZOOM_MINIMUM = 12;
@@ -64,11 +69,13 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
 
         //final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
 
+        imageView = findViewById(R.id.imageView);
+
         Button bouton = findViewById(R.id.button2);
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                dispatchTakePictureIntent();
+                ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
             }
         });
 
@@ -134,15 +141,49 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 recupererLocalisationEtDemanderAutorisationSiBesoin();
             }
+        } else if (requestCode == CODE_REQUETE_AUTORISATION_CAMERA) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
+            }
+        } else if (requestCode == CODE_REQUETE_AUTORISATION_STOCKAGE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
+            }
         }
     }
 
 
-    /*private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+    private void ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {
+                            Manifest.permission.CAMERA }
+                    , CODE_REQUETE_AUTORISATION_CAMERA );
+        } else {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         }
-    }*/
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE }
+                    , CODE_REQUETE_AUTORISATION_STOCKAGE );
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            this.imageView.setImageBitmap(imageBitmap);
+        }
+    }
+
 
 }
