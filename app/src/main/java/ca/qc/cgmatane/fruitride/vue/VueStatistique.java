@@ -57,7 +57,6 @@ public class VueStatistique extends AppCompatActivity {
     private ArrayList getData(ArrayList<String> listeJour){
         ArrayList<DataEntry> entries = new ArrayList<>();
         for (int i=0; i<7;i++){
-            System.out.println("OKOKOKOKOKOKKKOKOK  " + i);
             int nbPas=accesseurActivite.recupererNombrePas(6-i);
             entries.add(new ValueDataEntry(listeJour.get(i), nbPas));
         }
