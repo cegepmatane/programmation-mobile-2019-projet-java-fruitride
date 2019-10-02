@@ -3,8 +3,13 @@ package ca.qc.cgmatane.fruitride.donnee;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -49,21 +54,26 @@ public class ActiviteDAO {
         return new Activite(0);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public int recupererNombrePas(int nombreDeJourAvantAujourdhui) {
 
-        System.out.println("DAODAODOA");
-
         String ACTIVITE = "SELECT * FROM activite WHERE date = '"+ dateXJour(nombreDeJourAvantAujourdhui) +"'";
+
+        System.out.println(ACTIVITE);
 
         Cursor curseur = accesseurBaseDeDonnees.getReadableDatabase().rawQuery(ACTIVITE, null);
 
         int indexId_nbPas = curseur.getColumnIndex("nb_pas");
 
-        int nombrePas = 0;
+        int nombrePas;
+        nombrePas=0;
 
-        if (curseur.getCount()!=0) {
+        if (curseur.getCount()!=0  && curseur.moveToFirst()) {
+            System.out.println("GET COUNT PAS EGALE A ZEROOO");
             nombrePas = curseur.getInt(indexId_nbPas);
         }
+
+        System.out.println("LE NOMBRE DE PAS EST "+nombrePas);
 
         return nombrePas;
     }
@@ -125,16 +135,17 @@ public class ActiviteDAO {
         return date;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String dateXJour(int nombreDeJour){
-        int annee = Calendar.getInstance().get(Calendar.YEAR);
-        String mois = Integer.toString(Calendar.getInstance().get(Calendar.MONTH) + 1);
-        if (mois.length() < 2) {
-            mois = "0" + mois;
-        }
-        int jour = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+        LocalDate today = LocalDate.now( z ) ;
+        LocalDate ago090 = today.minusDays( nombreDeJour ) ;
 
-        String date = annee + "-" + mois + "-" + jour + " + interval" + nombreDeJour +" day";
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + date);
+        String date = ago090.toString() ;
+
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx"+ date);
+
         return date;
+
     }
 }

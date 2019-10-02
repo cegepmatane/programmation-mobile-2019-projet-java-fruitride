@@ -1,7 +1,9 @@
 package ca.qc.cgmatane.fruitride.vue;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.anychart.AnyChart;
@@ -28,6 +30,7 @@ public class VueStatistique extends AppCompatActivity {
     private AnyChartView columnChart;
     protected ActiviteDAO accesseurActivite;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +53,12 @@ public class VueStatistique extends AppCompatActivity {
         columnChart.setChart(cartesian);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private ArrayList getData(ArrayList<String> listeJour){
         ArrayList<DataEntry> entries = new ArrayList<>();
         for (int i=0; i<7;i++){
             System.out.println("OKOKOKOKOKOKKKOKOK  " + i);
-            int nbPas=accesseurActivite.recupererNombrePas(i);
+            int nbPas=accesseurActivite.recupererNombrePas(6-i);
             entries.add(new ValueDataEntry(listeJour.get(i), nbPas));
         }
         return entries;
