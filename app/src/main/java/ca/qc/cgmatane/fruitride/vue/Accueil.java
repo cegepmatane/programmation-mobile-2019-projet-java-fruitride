@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.controleur.NotificationService;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
 import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
@@ -62,6 +63,8 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.accueil);
 
         BaseDeDonnee.getInstance(getApplicationContext());
+
+        stopService(new Intent( this, NotificationService. class));
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -187,6 +190,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        startService( new Intent( this, NotificationService. class ));
         accesseurActivite.enregistrerNombreDePas((etatSensor - etatSensorDemarage) + activite.getNombreDePas());
         accesseurUtilisateur.enregistrerExperience(utilisateur);
     }
