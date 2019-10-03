@@ -15,9 +15,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +28,7 @@ import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.controleur.NotificationService;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
 import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
+import ca.qc.cgmatane.fruitride.donnee.LectureEcriture;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Activite;
 import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
@@ -56,6 +57,9 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     protected ActiviteDAO accesseurActivite;
     protected Activite activite;
 
+    // POUR LE TEST UNIQUEMENT
+    private LectureEcriture lectureEcriture;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,21 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         stopService(new Intent( this, NotificationService. class));
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
+        //// ZONE DE TEST UNIQUEMENT ////
+        lectureEcriture = new LectureEcriture();
+
+        Log.d("TEST EXISTANCE DU FICHIER (nég au premier lauch, pos ap. : ","" + lectureEcriture.fichierPret(this));
+
+        //On écrit qqch dans le fichier
+        lectureEcriture.ecrireDansLeFichier("HELLO WORLD !", this);
+
+        //On lit ce qqch depuis le fichier
+        Log.d("TENTATIVE DE LECTURE DU FICHIER : ",lectureEcriture.lireDepuisLeFichier(this));
+
+
+        //// FIN ////
 
         setUtilisateur();
         setActivite();
