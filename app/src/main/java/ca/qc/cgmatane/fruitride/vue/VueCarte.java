@@ -15,9 +15,8 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.animation.AnimationUtils;
-import android.R.anim.*;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -204,6 +203,7 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             galleryAddPic();
+            setPic();
             Toast.makeText(this, "Photo enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
             /*Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -217,7 +217,11 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/FruitRide");
+        if (!storageDir.exists()) {
+            boolean resultat = storageDir.mkdir();
+            Log.d("TRUC", resultat + "");
+        }
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -237,5 +241,30 @@ public class VueCarte extends FragmentActivity implements OnMapReadyCallback {
         this.sendBroadcast(mediaScanIntent);
         System.out.println("ENREGISTREMENT PHOTO " + contentUri.toString());
     }
+
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        imageView.setImageBitmap(bitmap);
+    }
+
 
 }
