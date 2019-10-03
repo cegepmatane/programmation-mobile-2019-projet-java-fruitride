@@ -43,6 +43,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     protected TextView nbPas;
     protected TextView vueAccueilNomUtilisateur;
+    protected TextView vueAccueilNiveauUtilisateur;
     protected ProgressBar vueAccueilBarreDeNiveau;
 
     protected float etatSensor;
@@ -75,6 +76,9 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         nbPas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
         nbPas.setText(Float.toString(activite.getNombreDePas()));
+
+        vueAccueilNiveauUtilisateur = (TextView)findViewById(R.id.vue_score_label_niveau_joueur);
+
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
     }
 
@@ -161,11 +165,17 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         if (running) {
             if (premiereOuverture) {
                 etatSensorDemarage = sensorEvent.values[0];
+                etatSensor = sensorEvent.values[0];
                 premiereOuverture = false;
             }
             float nombreDePas = (sensorEvent.values[0] - etatSensorDemarage) + activite.getNombreDePas();
             nbPas.setText(String.valueOf(nombreDePas));
-            utilisateur.setExperience(Math.round(utilisateur.getExperience() + (nombreDePas - utilisateur.getExperience())));
+            int experience = Math.round(utilisateur.getExperience() + (sensorEvent.values[0] - etatSensor));
+            utilisateur.setExperience(experience);
+            utilisateur.setNiveau(experience / 100);
+            System.out.println(utilisateur.getExperience() + " XP");
+            System.out.println((sensorEvent.values[0] - etatSensor) + " ETAT");
+            vueAccueilNiveauUtilisateur.setText("Niveau : " + utilisateur.getNiveau());
             vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
             etatSensor = sensorEvent.values[0];
         }

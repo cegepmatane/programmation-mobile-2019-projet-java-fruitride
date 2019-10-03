@@ -53,4 +53,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/vue_score_label_niveau_joueur"
+        android:layout_width="216dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="79dp"
+        android:layout_marginBottom="137dp"
+        android:text="Niveau : "
+        android:textAlignment="center"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vue_score_barre_de_niveau" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

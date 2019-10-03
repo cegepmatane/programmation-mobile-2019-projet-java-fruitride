@@ -58,13 +58,15 @@ public class UtilisateurDAO {
         int indexId_utilisateur = curseur.getColumnIndex("id_utilisateur");
         int indexNom = curseur.getColumnIndex("nom");
         int indexPrenom = curseur.getColumnIndex("prenom");
+        int indexExperience = curseur.getColumnIndex("experience");
 
         for (curseur.moveToFirst();!curseur.isAfterLast();curseur.moveToNext()) {
             int id_utilisateur = curseur.getInt(indexId_utilisateur);
             String nom = curseur.getString(indexNom);
             String prenom = curseur.getString(indexPrenom);
-            Utilisateur utilisateur = new Utilisateur(nom, prenom, id_utilisateur);
-            return new Utilisateur(nom, prenom, id_utilisateur);
+            int experience = curseur.getInt(indexExperience);
+            Utilisateur utilisateur = new Utilisateur(nom, prenom, experience, id_utilisateur);
+            return utilisateur;
         }
         return new Utilisateur("toto", "test", 0);
     }
@@ -77,9 +79,10 @@ public class UtilisateurDAO {
 
     public void enregistrerExperience(Utilisateur utilisateur) {
         System.out.println("MISE A JOUR XP UTILISATEUR");
+        int experienceUtilisateur = utilisateur.getExperience() / 100;
         SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
         SQLiteStatement query = db.compileStatement("UPDATE utilisateur SET experience = " + utilisateur.getExperience()
-                + " WHERE id_utilisateur = '" + utilisateur.getId_utilisateur() + "'");
+                + ", niveau = " + experienceUtilisateur + " WHERE id_utilisateur = '" + utilisateur.getId_utilisateur() + "'");
         query.execute();
     }
 }
