@@ -74,16 +74,16 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
 
         //// ZONE DE TEST UNIQUEMENT ////
-        lectureEcriture = new LectureEcriture();
+        lectureEcriture = new LectureEcriture(this);
 
         Log.d("TEST EXISTANCE DU FICHIER (nég au premier lauch, pos ap. : ","" + lectureEcriture.fichierPret(this));
 
         //On écrit qqch dans le fichier
-        lectureEcriture.ecrireDansLeFichier("HELLO WORLD !", this);
+        lectureEcriture.miseAjourXML(this);
 
-        //On lit ce qqch depuis le fichier
-        Log.d("TENTATIVE DE LECTURE DU FICHIER : ",lectureEcriture.lireDepuisLeFichier(this));
-
+        Log.d("TEST I/O","Thème clair : "+lectureEcriture.themeClair());
+        Log.d("TEST I/O", "Notifs : "+lectureEcriture.notificationsActives());
+        Log.d("TEST I/O", "Lieux à prox. : "+lectureEcriture.lieuxAproximiteActifs());
 
         //// FIN ////
 
