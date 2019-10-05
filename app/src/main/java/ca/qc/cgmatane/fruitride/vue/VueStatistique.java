@@ -1,7 +1,10 @@
 package ca.qc.cgmatane.fruitride.vue;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +32,7 @@ import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 public class VueStatistique extends AppCompatActivity {
     private AnyChartView columnChart;
     protected ActiviteDAO accesseurActivite;
+    protected Intent intentionNaviguerAccueil;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -51,6 +55,24 @@ public class VueStatistique extends AppCompatActivity {
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
         cartesian.title("Vos pas cette semaine");
         columnChart.setChart(cartesian);
+
+        Button boutonAccueil = findViewById(R.id.boutonAccueil);
+        final Intent intentRetour = new Intent(this, Accueil.class);
+        boutonAccueil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentRetour);
+            }
+        });
+
+        Button boutonImageAccueil = findViewById(R.id.boutonLogoAccueil);
+        final Intent intentAccueil = new Intent(this, Accueil.class);
+        boutonImageAccueil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentAccueil);
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
