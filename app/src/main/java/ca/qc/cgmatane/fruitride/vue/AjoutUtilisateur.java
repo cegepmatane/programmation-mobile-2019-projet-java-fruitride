@@ -16,33 +16,34 @@ import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 public class AjoutUtilisateur extends AppCompatActivity {
 
     protected EditText vueAjouterUtilisateurChampNom;
-    protected EditText getVueAjouterUtilisateurChampPrenom;
+    protected EditText vueAjouterUtilisateurChampPrenom;
 
     protected UtilisateurDAO accesseurUtilisateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_ajout_utilisateur);
 
         BaseDeDonnee.getInstance(getApplicationContext());
 
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+        // VARIABLE QUI RENVOIS TRUE SI C'EST LA PREMIERE FOIS QUE L'APPLICATION EST LANCEE
+        Boolean premiereUtilisation = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
 
-        if (isFirstRun) {
+        if (premiereUtilisation) {
             //Checker si utilisateur dans BDD plutot que si premier démarrage
         } else {
             startActivity(new Intent(this, Accueil.class));
             this.finish();
         }
 
-
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();
 
         vueAjouterUtilisateurChampNom = (EditText) findViewById(R.id.vue_ajouter_utilisateur_champ_nom);
-        getVueAjouterUtilisateurChampPrenom = (EditText) findViewById(R.id.vue_ajouter_utilisateur_champ_prenom);
+        vueAjouterUtilisateurChampPrenom = (EditText) findViewById(R.id.vue_ajouter_utilisateur_champ_prenom);
 
         Button vueAjouterJoueurActionEnregistrer =
                 (Button) findViewById(R.id.vue_ajouter_utilisateur_action_enregistrer);
@@ -62,7 +63,7 @@ public class AjoutUtilisateur extends AppCompatActivity {
         accesseurUtilisateur = UtilisateurDAO.getInstance();
 
         accesseurUtilisateur.ajouterUtilisateur(new Utilisateur(vueAjouterUtilisateurChampNom.getText().toString(),
-                getVueAjouterUtilisateurChampPrenom.getText().toString(),
+                vueAjouterUtilisateurChampPrenom.getText().toString(),
                 0));
 
         naviguerRetourClub();
