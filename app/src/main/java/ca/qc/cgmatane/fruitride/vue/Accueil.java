@@ -36,20 +36,24 @@ import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
 public class Accueil extends AppCompatActivity implements SensorEventListener {
 
-    protected boolean doubleTap = false;
+    protected final float EPAISSEUR_BARRE_DE_NIVEAU = 5f;
+    protected final int NOMBRE_DE_PAS = 0;
+
+    protected boolean doubleTouche = false;
     protected boolean premiereOuverture = true;
-    protected boolean running;
+    protected boolean activationPodometre;
 
-    protected SensorManager sensorManager;
-    protected Sensor countSensor;
+    protected SensorManager capteurNombreDePas;
+    protected Sensor capteur;
 
-    protected TextView nbPas;
+    protected TextView vueAccueilNombreDePas;
     protected TextView vueAccueilNomUtilisateur;
     protected TextView vueAccueilNiveauUtilisateur;
+
     protected ProgressBar vueAccueilBarreDeNiveau;
 
-    protected float etatSensor;
-    protected float etatSensorDemarage;
+    protected float etatPodometre;
+    protected float etatPodometreAuDemarrage;
 
     protected UtilisateurDAO accesseurUtilisateur;
     protected Utilisateur utilisateur;
@@ -63,15 +67,17 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil);
 
         BaseDeDonnee.getInstance(getApplicationContext());
 
+        //DESACTIVER L'ENVOI DE NOTIFICATION
         stopService(new Intent( this, NotificationService. class));
 
+        //DESACTIVER LA ROTATION D'ECRAN
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
         //// ZONE DE TEST UNIQUEMENT ////
         lectureEcriture = new LectureEcriture(this);
@@ -87,36 +93,39 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
         //// FIN ////
 
-        setUtilisateur();
-        setActivite();
+        initialiserUtilisateur();
+        initialiserActivite();
 
-        setProgressBar();
+        initialiserBarreDeNiveau();
 
         afficherUtilisateur();
 
         setListener();
 
-        nbPas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
-        nbPas.setText(Float.toString(activite.getNombreDePas()));
+        vueAccueilNombreDePas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
+        vueAccueilNombreDePas.setText(Float.toString(activite.getNombreDePas()));
 
         vueAccueilNiveauUtilisateur = (TextView)findViewById(R.id.vue_score_label_niveau_joueur);
 
-        sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        capteurNombreDePas = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
     }
 
-    public void setProgressBar() {
+    public void initialiserBarreDeNiveau() {
+
         vueAccueilBarreDeNiveau = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
         vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
-        vueAccueilBarreDeNiveau.setScaleY(5f);
+        vueAccueilBarreDeNiveau.setScaleY(EPAISSEUR_BARRE_DE_NIVEAU);
         vueAccueilBarreDeNiveau.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
 
-    public void setUtilisateur() {
+    public void initialiserUtilisateur() {
+
         accesseurUtilisateur = UtilisateurDAO.getInstance();
         utilisateur = accesseurUtilisateur.recupererUtilisateur();
     }
 
-    public void setActivite() {
+    public void initialiserActivite() {
+
         accesseurActivite = ActiviteDAO.getInstance();
         accesseurActivite.isActiviteAjourdhui(new Activite(Calendar.getInstance(),0,
                 0,utilisateur.getId_utilisateur()));
@@ -125,10 +134,10 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     @SuppressLint("ClickableViewAccessibility")
     public void setListener() {
+
         final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
         final Intent intentionNaviguerVueStatistiques = new Intent(this, VueStatistique.class);
         final Intent intentionNaviguerVueCarte = new Intent(this, VueCarte.class);
-
 
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
 
@@ -146,15 +155,15 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
         findViewById(R.id.vue_score_label_nombre_de_pas).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (doubleTap) {
+                if (doubleTouche) {
                     startActivity(intentionNaviguerVueStatistiques);
                 } else {
-                    doubleTap = true;
+                    doubleTouche = true;
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            doubleTap = false;
+                            doubleTouche = false;
                         }
                     }, 500);
                 }
@@ -165,11 +174,12 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     @Override
     protected void onResume() {
+
         super.onResume();
-        running = true;
-        countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if (countSensor != null) {
-            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        activationPodometre = true;
+        capteur = capteurNombreDePas.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if (capteur != null) {
+            capteurNombreDePas.registerListener(this, capteur, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             Toast.makeText(this, "Sensor non trouvé", Toast.LENGTH_SHORT).show();
         }
@@ -177,29 +187,36 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     @Override
     protected void onPause() {
+
         super.onPause();
-        running = false;
+        activationPodometre = false;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if (running) {
+
+        if (activationPodometre) {
+
+            float nombreDePasPodometre = sensorEvent.values[NOMBRE_DE_PAS];
+
             if (premiereOuverture) {
-                etatSensorDemarage = sensorEvent.values[0];
-                etatSensor = sensorEvent.values[0];
+                etatPodometreAuDemarrage = nombreDePasPodometre;
+                etatPodometre = nombreDePasPodometre;
                 premiereOuverture = false;
             }
-            float nombreDePas = (sensorEvent.values[0] - etatSensorDemarage) + activite.getNombreDePas();
-            nbPas.setText(String.valueOf(nombreDePas));
-            int experience = Math.round(utilisateur.getExperience() + (sensorEvent.values[0] - etatSensor));
+            float nombreDePas = (nombreDePasPodometre - etatPodometreAuDemarrage) + activite.getNombreDePas();
+            int experience = Math.round(utilisateur.getExperience() + (nombreDePasPodometre - etatPodometre));
+
+            vueAccueilNombreDePas.setText(String.valueOf(nombreDePas));
+
             utilisateur.setExperience(experience);
             utilisateur.setNiveau(experience / 100);
-            System.out.println(utilisateur.getExperience() + " XP");
-            System.out.println((sensorEvent.values[0] - etatSensor) + " ETAT");
+
             vueAccueilNiveauUtilisateur.setText("Niveau : " + utilisateur.getNiveau());
             vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
-            etatSensor = sensorEvent.values[0];
+
+            etatPodometre = nombreDePasPodometre;
         }
     }
 
@@ -208,14 +225,16 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         startService( new Intent( this, NotificationService. class ));
-        accesseurActivite.enregistrerNombreDePas((etatSensor - etatSensorDemarage) + activite.getNombreDePas());
+        accesseurActivite.enregistrerNombreDePas((etatPodometre - etatPodometreAuDemarrage) + activite.getNombreDePas());
         accesseurUtilisateur.enregistrerExperience(utilisateur);
     }
 
     @SuppressLint("SetTextI18n")
     protected void afficherUtilisateur() {
+
         vueAccueilNomUtilisateur = (TextView) findViewById(R.id.vue_score_label_nom_joueur);
         vueAccueilNomUtilisateur.setText(utilisateur.getNom() + " " + utilisateur.getPrenom());
     }

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -19,6 +18,7 @@ import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.vue.Accueil;
 
 public class NotificationService extends Service {
+
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private final static String default_notification_channel_id = "default";
     Timer timer;
