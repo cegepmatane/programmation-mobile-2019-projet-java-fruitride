@@ -23,7 +23,7 @@
         <activity android:name=".vue.VueCarte" />
         <activity android:name=".vue.VueStatistique" />
         <activity android:name=".vue.Accueil"/>
-        <activity android:name=".vue.AjoutUtilisateur">
+        <activity android:name=".vue.AjoutUtilisateur" android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
