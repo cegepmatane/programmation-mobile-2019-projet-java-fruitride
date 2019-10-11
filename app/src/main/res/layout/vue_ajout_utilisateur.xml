@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logopng" />
 
     <EditText
         android:id="@+id/vue_ajouter_utilisateur_champ_nom"
@@ -60,6 +60,7 @@
 
     <Button
         android:id="@+id/vue_ajouter_utilisateur_action_enregistrer"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
