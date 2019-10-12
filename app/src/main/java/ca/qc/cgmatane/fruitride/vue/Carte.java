@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.List;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.controleur.ControleurAccueil;
+import ca.qc.cgmatane.fruitride.controleur.ControleurCarte;
 import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
 import ca.qc.cgmatane.fruitride.Gesture.ListenerSwipe;
@@ -58,6 +60,8 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int ZOOM_PAR_DEFAUT = 15;
     private static final int ZOOM_MINIMUM = 12;
+
+    protected ControleurCarte controleurCarte = new ControleurCarte(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +97,13 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
 
             }
             public void onSwipeLeft() {
-                intentionNaviguerVuePrincipale();
+                controleurCarte.actionNaviguerAccueil();
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
     }
 
-    public void intentionNaviguerVuePrincipale() {
+    public void naviguerAccueil() {
         this.finish();
     }
 
