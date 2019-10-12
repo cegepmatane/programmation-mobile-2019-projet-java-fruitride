@@ -13,7 +13,7 @@ import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
-public class AjoutUtilisateur extends AppCompatActivity {
+public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtilisateur{
 
     protected EditText vueAjouterUtilisateurChampNom;
     protected EditText vueAjouterUtilisateurChampPrenom;
@@ -58,7 +58,7 @@ public class AjoutUtilisateur extends AppCompatActivity {
         );
     }
 
-    private void enregistrerUtilisateur() {
+    public void enregistrerUtilisateur() {
 
         accesseurUtilisateur = UtilisateurDAO.getInstance();
 
@@ -69,7 +69,7 @@ public class AjoutUtilisateur extends AppCompatActivity {
         naviguerRetourClub();
     }
 
-    private void naviguerRetourClub() {
+    public void naviguerRetourClub() {
         Intent retourAccueil = new Intent(this, Accueil.class);
         startActivity(retourAccueil);
         this.finish();

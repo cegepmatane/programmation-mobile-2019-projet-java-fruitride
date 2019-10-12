@@ -34,7 +34,7 @@ import ca.qc.cgmatane.fruitride.modele.Activite;
 import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
-public class Accueil extends AppCompatActivity implements SensorEventListener {
+public class Accueil extends AppCompatActivity implements SensorEventListener, VueAccueil {
 
     protected final float EPAISSEUR_BARRE_DE_NIVEAU = 5f;
     protected final int NOMBRE_DE_PAS = 0;
@@ -135,9 +135,9 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     @SuppressLint("ClickableViewAccessibility")
     public void setListener() {
 
-        final Intent intentionNaviguerVueConfiguration = new Intent(this, VueConfiguration.class);
-        final Intent intentionNaviguerVueStatistiques = new Intent(this, VueStatistique.class);
-        final Intent intentionNaviguerVueCarte = new Intent(this, VueCarte.class);
+        final Intent intentionNaviguerVueConfiguration = new Intent(this, Configuration.class);
+        final Intent intentionNaviguerVueStatistiques = new Intent(this, Statistique.class);
+        final Intent intentionNaviguerVueCarte = new Intent(this, Carte.class);
 
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
 
@@ -233,7 +233,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener {
     }
 
     @SuppressLint("SetTextI18n")
-    protected void afficherUtilisateur() {
+    public void afficherUtilisateur() {
 
         vueAccueilNomUtilisateur = (TextView) findViewById(R.id.vue_score_label_nom_joueur);
         vueAccueilNomUtilisateur.setText(utilisateur.getNom() + " " + utilisateur.getPrenom());

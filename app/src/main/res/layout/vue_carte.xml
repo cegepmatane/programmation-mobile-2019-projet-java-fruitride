@@ -6,7 +6,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vue.VueCarte">
+    tools:context=".vue.Carte">
 
     <Button
         android:id="@+id/button2"

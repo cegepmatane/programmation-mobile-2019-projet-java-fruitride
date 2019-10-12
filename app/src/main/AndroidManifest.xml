@@ -19,9 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".vue.VueConfiguration" />
-        <activity android:name=".vue.VueCarte" />
-        <activity android:name=".vue.VueStatistique" />
+        <activity android:name=".vue.Configuration" />
+        <activity android:name=".vue.Carte" />
+        <activity android:name=".vue.Statistique" />
         <activity android:name=".vue.Accueil"/>
         <activity android:name=".vue.AjoutUtilisateur" android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
