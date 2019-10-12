@@ -1,32 +1,44 @@
 package ca.qc.cgmatane.fruitride.controleur;
 
 import android.content.Context;
+import android.content.Intent;
 
 import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
-import ca.qc.cgmatane.fruitride.modele.Utilisateur;
-import ca.qc.cgmatane.fruitride.vue.VueAjoutUtilisateur;
+import ca.qc.cgmatane.fruitride.vue.VueAccueil;
 
-public class ControleurAjouterUtilisateur implements Controleur {
+public class ControleurAccueil implements Controleur{
 
-    private VueAjoutUtilisateur vue;
+    private VueAccueil vue;
     private UtilisateurDAO accesseurUtilisateur;
 
-    public ControleurAjouterUtilisateur(VueAjoutUtilisateur vue) {
+    public ControleurAccueil(VueAccueil vue) {
         this.vue = vue;
     }
 
-    public void actionEnregistrerUtilisateur(Utilisateur utilisateur) {
+    public void actionNaviguerConfiguration() {
+        vue.naviguerConfiguration();
+    }
 
-        accesseurUtilisateur = UtilisateurDAO.getInstance();
-        accesseurUtilisateur.ajouterUtilisateur(utilisateur);
-        vue.naviguerRetourAccueil();
+    public void actionNaviguerStatistique() {
+        vue.naviguerStatistique();
+    }
+
+    public void actionNaviguerCarte() {
+        vue.naviguerCarte();
     }
 
     @Override
     public void onCreate(Context applicationContext) {
 
         BaseDeDonnee.getInstance(applicationContext);
+
+        vue.initialiserUtilisateur();
+        vue.initialiserActivite();
+
+        vue.initialiserBarreDeNiveau();
+        vue.afficherUtilisateur();
+        vue.setListener();
     }
 
     @Override

@@ -26,8 +26,8 @@ import java.util.Calendar;
 
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.AccesTelephone.NotificationService;
+import ca.qc.cgmatane.fruitride.controleur.ControleurAccueil;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
-import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 import ca.qc.cgmatane.fruitride.AccesTelephone.LectureEcriture;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Activite;
@@ -61,6 +61,8 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
     protected ActiviteDAO accesseurActivite;
     protected Activite activite;
 
+    protected ControleurAccueil controleurAccueil = new ControleurAccueil(this);
+
     // POUR LE TEST UNIQUEMENT
     private LectureEcriture lectureEcriture;
 
@@ -71,36 +73,11 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil);
 
-        BaseDeDonnee.getInstance(getApplicationContext());
-
         //DESACTIVER L'ENVOI DE NOTIFICATION
         stopService(new Intent( this, NotificationService. class));
 
         //DESACTIVER LA ROTATION D'ECRAN
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        //// ZONE DE TEST UNIQUEMENT ////
-        lectureEcriture = new LectureEcriture(this);
-
-        Log.d("TEST EXISTANCE DU FICHIER (nég au premier lauch, pos ap. : ","" + lectureEcriture.fichierPret(this));
-
-        //On écrit qqch dans le fichier
-        lectureEcriture.miseAjourXML(this);
-
-        Log.d("TEST I/O","Thème clair : "+lectureEcriture.themeClair());
-        Log.d("TEST I/O", "Notifs : "+lectureEcriture.notificationsActives());
-        Log.d("TEST I/O", "Lieux à prox. : "+lectureEcriture.lieuxAproximiteActifs());
-
-        //// FIN ////
-
-        initialiserUtilisateur();
-        initialiserActivite();
-
-        initialiserBarreDeNiveau();
-
-        afficherUtilisateur();
-
-        setListener();
 
         vueAccueilNombreDePas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
         vueAccueilNombreDePas.setText(Float.toString(activite.getNombreDePas()));
@@ -108,6 +85,8 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
         vueAccueilNiveauUtilisateur = (TextView)findViewById(R.id.vue_score_label_niveau_joueur);
 
         capteurNombreDePas = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+
+        controleurAccueil.onCreate(getApplicationContext());
     }
 
     public void initialiserBarreDeNiveau() {
@@ -135,19 +114,15 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
     @SuppressLint("ClickableViewAccessibility")
     public void setListener() {
 
-        final Intent intentionNaviguerVueConfiguration = new Intent(this, Configuration.class);
-        final Intent intentionNaviguerVueStatistiques = new Intent(this, Statistique.class);
-        final Intent intentionNaviguerVueCarte = new Intent(this, Carte.class);
-
         ConstraintLayout monLayout = (ConstraintLayout) findViewById(R.id.layout);
 
         monLayout.setOnTouchListener(new ListenerSwipe(Accueil.this) {
             public void onSwipeRight() {
-                startActivity(intentionNaviguerVueCarte);
+                controleurAccueil.actionNaviguerCarte();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
             public void onSwipeLeft() {
-                startActivity(intentionNaviguerVueConfiguration);
+                controleurAccueil.actionNaviguerConfiguration();
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
@@ -156,7 +131,7 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (doubleTouche) {
-                    startActivity(intentionNaviguerVueStatistiques);
+                    controleurAccueil.actionNaviguerStatistique();
                 } else {
                     doubleTouche = true;
                     Handler handler = new Handler();
@@ -238,4 +213,39 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
         vueAccueilNomUtilisateur = (TextView) findViewById(R.id.vue_score_label_nom_joueur);
         vueAccueilNomUtilisateur.setText(utilisateur.getNom() + " " + utilisateur.getPrenom());
     }
+
+    @Override
+    public void naviguerCarte() {
+        final Intent intentionNaviguerCarte = new Intent(this, Carte.class);
+        startActivity(intentionNaviguerCarte);
+    }
+
+    @Override
+    public void naviguerStatistique() {
+        final Intent intentionNaviguerStatistiques = new Intent(this, Statistique.class);
+        startActivity(intentionNaviguerStatistiques);
+    }
+
+    @Override
+    public void naviguerConfiguration() {
+        final Intent intentionNaviguerConfiguration = new Intent(this, Configuration.class);
+        startActivity(intentionNaviguerConfiguration);
+    }
 }
+
+        /*
+        /// ZONE DE TEST UNIQUEMENT ////
+        lectureEcriture = new LectureEcriture(this);
+
+        Log.d("TEST EXISTANCE DU FICHIER (nég au premier lauch, pos ap. : ","" + lectureEcriture.fichierPret(this));
+
+        //On écrit qqch dans le fichier
+        lectureEcriture.miseAjourXML(this);
+
+        Log.d("TEST I/O","Thème clair : "+lectureEcriture.themeClair());
+        Log.d("TEST I/O", "Notifs : "+lectureEcriture.notificationsActives());
+        Log.d("TEST I/O", "Lieux à prox. : "+lectureEcriture.lieuxAproximiteActifs());
+
+        //// FIN ////
+
+         */

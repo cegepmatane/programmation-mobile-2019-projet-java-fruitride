@@ -6,4 +6,7 @@ public interface VueAccueil {
     void initialiserActivite();
     void setListener();
     void afficherUtilisateur();
+    void naviguerStatistique();
+    void naviguerCarte();
+    void naviguerConfiguration();
 }
