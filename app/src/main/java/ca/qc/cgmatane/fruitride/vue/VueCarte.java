@@ -7,7 +7,7 @@ public interface VueCarte {
     void naviguerAccueil();
     void recupererLocalisationEtDemanderAutorisationSiBesoin();
     void ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
-    File createImageFile() throws IOException;
-    void galleryAddPic();
-    void setPic();
+    File creerImage() throws IOException;
+    void ajouterImageALaGallerie();
+    void afficherImage();
 }

@@ -178,7 +178,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 File photoFile = null;
                 try {
-                    photoFile = createImageFile();
+                    photoFile = creerImage();
                 } catch (IOException ex) {
                     // Error occurred while creating the File
                 }
@@ -204,8 +204,8 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            galleryAddPic();
-            setPic();
+            ajouterImageALaGallerie();
+            afficherImage();
             Toast.makeText(this, "Photo enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
             /*Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -215,7 +215,8 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
 
     String currentPhotoPath;
 
-    public File createImageFile() throws IOException {
+    @Override
+    public File creerImage() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -235,7 +236,8 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         return image;
     }
 
-    public void galleryAddPic() {
+    @Override
+    public void ajouterImageALaGallerie() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(currentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
@@ -244,7 +246,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         System.out.println("ENREGISTREMENT PHOTO " + contentUri.toString());
     }
 
-    public void setPic() {
+    public void afficherImage() {
         // Get the dimensions of the View
         int targetW = imageView.getWidth();
         int targetH = imageView.getHeight();
