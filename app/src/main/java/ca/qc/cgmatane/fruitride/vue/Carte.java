@@ -19,15 +19,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
@@ -38,7 +34,6 @@ import java.util.Date;
 import java.util.List;
 
 import ca.qc.cgmatane.fruitride.R;
-import ca.qc.cgmatane.fruitride.controleur.Controleur;
 import ca.qc.cgmatane.fruitride.controleur.ControleurCarte;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
 import ca.qc.cgmatane.fruitride.gesture.ListenerSwipe;
