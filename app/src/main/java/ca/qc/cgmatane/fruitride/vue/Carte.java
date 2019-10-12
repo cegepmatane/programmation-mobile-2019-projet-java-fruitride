@@ -178,8 +178,6 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         controleurCarte.onActivityResult(requestCode, resultCode, data);
     }
 
-    String currentPhotoPath;
-
     @Override
     public File creerImage() throws IOException {
         // Create an image file name
@@ -197,14 +195,14 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
+        controleurCarte.emplacementPhoto = image.getAbsolutePath();
         return image;
     }
 
     @Override
     public void ajouterImageALaGallerie() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(currentPhotoPath);
+        File f = new File(controleurCarte.emplacementPhoto);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
@@ -231,7 +229,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        Bitmap bitmap = BitmapFactory.decodeFile(controleurCarte.emplacementPhoto, bmOptions);
         imageView.setImageBitmap(bitmap);
     }
 

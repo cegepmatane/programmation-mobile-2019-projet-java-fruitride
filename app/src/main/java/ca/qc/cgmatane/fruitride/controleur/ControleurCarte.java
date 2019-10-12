@@ -30,6 +30,8 @@ public class ControleurCarte implements Controleur {
     public Location localisationActuelle;
     public FusedLocationProviderClient fusedLocationProviderClient;
 
+    public String emplacementPhoto;
+
     private static final int ZOOM_PAR_DEFAUT = 15;
     private static final int ZOOM_MINIMUM = 12;
 
