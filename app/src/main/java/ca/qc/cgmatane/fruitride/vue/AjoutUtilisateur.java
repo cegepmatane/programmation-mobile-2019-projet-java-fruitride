@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.controleur.ControleurAjouterUtilisateur;
 import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
@@ -18,7 +19,8 @@ public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtili
     protected EditText vueAjouterUtilisateurChampNom;
     protected EditText vueAjouterUtilisateurChampPrenom;
 
-    protected UtilisateurDAO accesseurUtilisateur;
+    protected ControleurAjouterUtilisateur controleurAjouterUtilisateur = new ControleurAjouterUtilisateur(this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +28,7 @@ public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtili
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_ajout_utilisateur);
 
-        BaseDeDonnee.getInstance(getApplicationContext());
-
-        // VARIABLE QUI RENVOIS TRUE SI C'EST LA PREMIERE FOIS QUE L'APPLICATION EST LANCEE
-        Boolean premiereUtilisation = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true);
-
-        if (premiereUtilisation) {
-            //Checker si utilisateur dans BDD plutot que si premier démarrage
-        } else {
-            startActivity(new Intent(this, Accueil.class));
-            this.finish();
-        }
-
-        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).commit();
+        testSiPremiereUtilisation();
 
         vueAjouterUtilisateurChampNom = (EditText) findViewById(R.id.vue_ajouter_utilisateur_champ_nom);
         vueAjouterUtilisateurChampPrenom = (EditText) findViewById(R.id.vue_ajouter_utilisateur_champ_prenom);
@@ -56,22 +44,38 @@ public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtili
                     }
                 }
         );
+
+        controleurAjouterUtilisateur.onCreate(getApplicationContext());
     }
 
     public void enregistrerUtilisateur() {
 
-        accesseurUtilisateur = UtilisateurDAO.getInstance();
-
-        accesseurUtilisateur.ajouterUtilisateur(new Utilisateur(vueAjouterUtilisateurChampNom.getText().toString(),
+        Utilisateur utilisateur = new Utilisateur(vueAjouterUtilisateurChampNom.getText().toString(),
                 vueAjouterUtilisateurChampPrenom.getText().toString(),
-                0));
+                0);
 
-        naviguerRetourClub();
+        controleurAjouterUtilisateur.actionEnregistrerUtilisateur(utilisateur);
     }
 
     public void naviguerRetourClub() {
         Intent retourAccueil = new Intent(this, Accueil.class);
         startActivity(retourAccueil);
         this.finish();
+    }
+
+    public void testSiPremiereUtilisation() {
+        // VARIABLE QUI RENVOIS TRUE SI C'EST LA PREMIERE FOIS QUE L'APPLICATION EST LANCEE
+        Boolean premiereUtilisation = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (premiereUtilisation) {
+            //Checker si utilisateur dans BDD plutot que si premier démarrage
+        } else {
+            startActivity(new Intent(this, Accueil.class));
+            this.finish();
+        }
+
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).commit();
     }
 }
