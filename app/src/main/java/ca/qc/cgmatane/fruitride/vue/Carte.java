@@ -38,11 +38,10 @@ import java.util.Date;
 import java.util.List;
 
 import ca.qc.cgmatane.fruitride.R;
-import ca.qc.cgmatane.fruitride.controleur.ControleurAccueil;
 import ca.qc.cgmatane.fruitride.controleur.ControleurCarte;
 import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
-import ca.qc.cgmatane.fruitride.Gesture.ListenerSwipe;
+import ca.qc.cgmatane.fruitride.gesture.ListenerSwipe;
 
 
 public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCarte {

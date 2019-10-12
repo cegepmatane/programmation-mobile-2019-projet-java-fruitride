@@ -15,23 +15,18 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 import ca.qc.cgmatane.fruitride.R;
-import ca.qc.cgmatane.fruitride.AccesTelephone.NotificationService;
+import ca.qc.cgmatane.fruitride.accestelephone.NotificationService;
 import ca.qc.cgmatane.fruitride.controleur.ControleurAccueil;
-import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
-import ca.qc.cgmatane.fruitride.AccesTelephone.LectureEcriture;
-import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
+import ca.qc.cgmatane.fruitride.accestelephone.LectureEcriture;
 import ca.qc.cgmatane.fruitride.modele.Activite;
-import ca.qc.cgmatane.fruitride.Gesture.ListenerSwipe;
+import ca.qc.cgmatane.fruitride.gesture.ListenerSwipe;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
 public class Accueil extends AppCompatActivity implements SensorEventListener, VueAccueil {

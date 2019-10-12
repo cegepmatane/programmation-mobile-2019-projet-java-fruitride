@@ -1,4 +1,4 @@
-package ca.qc.cgmatane.fruitride.AccesTelephone;
+package ca.qc.cgmatane.fruitride.accestelephone;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package ca.qc.cgmatane.fruitride.AccesTelephone;
+package ca.qc.cgmatane.fruitride.accestelephone;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;

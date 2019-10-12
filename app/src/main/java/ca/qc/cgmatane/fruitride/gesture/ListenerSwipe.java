@@ -1,4 +1,4 @@
-package ca.qc.cgmatane.fruitride.Gesture;
+package ca.qc.cgmatane.fruitride.gesture;
 
 import android.content.Context;
 import android.view.GestureDetector;
