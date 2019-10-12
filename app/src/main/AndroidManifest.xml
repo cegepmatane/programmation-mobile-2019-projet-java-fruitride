@@ -32,7 +32,7 @@
         </activity>
 
         <service
-            android:name = ".controleur.NotificationService"
+            android:name = ".AccesTelephone.NotificationService"
             android:label = "@string/app_name" >
             <intent-filter>
                 <action

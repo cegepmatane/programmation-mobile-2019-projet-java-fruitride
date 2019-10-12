@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import ca.qc.cgmatane.fruitride.R;
-import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
+import ca.qc.cgmatane.fruitride.Gesture.ListenerSwipe;
 
 public class Configuration extends AppCompatActivity implements VueConfiguration {
 

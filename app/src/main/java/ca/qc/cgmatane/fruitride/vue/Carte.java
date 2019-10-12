@@ -40,7 +40,7 @@ import java.util.List;
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
-import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
+import ca.qc.cgmatane.fruitride.Gesture.ListenerSwipe;
 
 
 public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCarte {

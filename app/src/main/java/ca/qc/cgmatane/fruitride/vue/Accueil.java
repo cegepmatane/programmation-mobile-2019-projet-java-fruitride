@@ -25,13 +25,13 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 import ca.qc.cgmatane.fruitride.R;
-import ca.qc.cgmatane.fruitride.controleur.NotificationService;
+import ca.qc.cgmatane.fruitride.AccesTelephone.NotificationService;
 import ca.qc.cgmatane.fruitride.donnee.ActiviteDAO;
 import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
-import ca.qc.cgmatane.fruitride.donnee.LectureEcriture;
+import ca.qc.cgmatane.fruitride.AccesTelephone.LectureEcriture;
 import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Activite;
-import ca.qc.cgmatane.fruitride.modele.ListenerSwipe;
+import ca.qc.cgmatane.fruitride.Gesture.ListenerSwipe;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
 public class Accueil extends AppCompatActivity implements SensorEventListener, VueAccueil {
