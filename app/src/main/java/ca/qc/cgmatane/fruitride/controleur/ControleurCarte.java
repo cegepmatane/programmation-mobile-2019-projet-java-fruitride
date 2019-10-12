@@ -25,6 +25,7 @@ public class ControleurCarte implements Controleur {
     public static final int CODE_REQUETE_AUTORISATION_LOCALISATION = 101;
     public static final int CODE_REQUETE_AUTORISATION_CAMERA = 102;
     public static final int CODE_REQUETE_AUTORISATION_STOCKAGE = 103;
+    public static final String ID_CHEMIN_IMAGE = "cheminImage";
     public static final int CODE_REQUETE_CAPTURE_IMAGE = 1;
 
     public Location localisationActuelle;

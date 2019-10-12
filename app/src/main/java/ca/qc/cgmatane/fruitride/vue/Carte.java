@@ -202,7 +202,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     @Override
     public void afficherPhotoPrise() {
         Intent intent = new Intent(this, AffichagePhotoPrise.class);
-        intent.putExtra("imagePath", controleurCarte.emplacementPhoto);
+        intent.putExtra(ControleurCarte.ID_CHEMIN_IMAGE, controleurCarte.emplacementPhoto);
         startActivityForResult(intent, 123);
     }
 
