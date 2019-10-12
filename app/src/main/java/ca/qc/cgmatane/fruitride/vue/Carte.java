@@ -46,7 +46,6 @@ import ca.qc.cgmatane.fruitride.gesture.ListenerSwipe;
 
 public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCarte {
 
-    private FruitDAO accesseurFruit;
     private List<Fruit> listeFruit;
     private ImageView imageView;
 
@@ -67,27 +66,14 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_carte);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        recupererLocalisationEtDemanderAutorisationSiBesoin();
-
-        accesseurFruit = FruitDAO.getInstance();
-        listeFruit = accesseurFruit.recupererListeFruit();
-
-        // chargement des markers personnalisés pour les fruits
-        // pour l'instant obligé dans une classe Activity
-        for (Fruit fruit : listeFruit) {
-            fruit.setLogo(BitmapFactory.decodeResource(getResources(), fruit.getIdResourceLogo()));
-        }
-
-        //final Intent naviguerAccueil = new Intent(this, Accueil.class);
-
         imageView = findViewById(R.id.imageView);
 
         Button bouton = findViewById(R.id.button2);
+
         bouton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
+                controleurCarte.naviguerVersAppareilPhoto();
             }
         });
 
@@ -100,12 +86,31 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
+
+        controleurCarte.onCreate(getApplicationContext());
     }
 
+    @Override
+    public void chargerIconesFruitPourMarkers() {
+        // chargement des markers personnalisés pour les fruits
+        // pour l'instant obligé dans une classe Activity
+        for (Fruit fruit : listeFruit) {
+            fruit.setLogo(BitmapFactory.decodeResource(getResources(), fruit.getIdResourceLogo()));
+        }
+    }
+
+    @Override
     public void naviguerAccueil() {
         this.finish();
     }
 
+    @Override
+    public void accederLocalisation() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        recupererLocalisationEtDemanderAutorisationSiBesoin();
+    }
+
+    @Override
     public void recupererLocalisationEtDemanderAutorisationSiBesoin() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -148,22 +153,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == CODE_REQUETE_AUTORISATION_LOCALISATION) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                recupererLocalisationEtDemanderAutorisationSiBesoin();
-            }
-        } else if (requestCode == CODE_REQUETE_AUTORISATION_CAMERA) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
-            }
-        } else if (requestCode == CODE_REQUETE_AUTORISATION_STOCKAGE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
-            }
-        }
+        controleurCarte.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
@@ -268,6 +258,11 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
 
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
         imageView.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void setListeFruit(List<Fruit> listeFruit) {
+        this.listeFruit = listeFruit;
     }
 
 
