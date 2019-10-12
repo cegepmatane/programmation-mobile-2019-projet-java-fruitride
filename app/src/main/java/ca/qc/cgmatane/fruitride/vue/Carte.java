@@ -76,7 +76,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
             fruit.setLogo(BitmapFactory.decodeResource(getResources(), fruit.getIdResourceLogo()));
         }
 
-        //final Intent intentionNaviguerVuePrincipale = new Intent(this, Accueil.class);
+        //final Intent naviguerAccueil = new Intent(this, Accueil.class);
 
         imageView = findViewById(R.id.imageView);
 
