@@ -10,8 +10,6 @@ import android.widget.EditText;
 
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.controleur.ControleurAjouterUtilisateur;
-import ca.qc.cgmatane.fruitride.donnee.BaseDeDonnee;
-import ca.qc.cgmatane.fruitride.donnee.UtilisateurDAO;
 import ca.qc.cgmatane.fruitride.modele.Utilisateur;
 
 public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtilisateur{
@@ -57,7 +55,7 @@ public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtili
         controleurAjouterUtilisateur.actionEnregistrerUtilisateur(utilisateur);
     }
 
-    public void naviguerRetourClub() {
+    public void naviguerRetourAccueil() {
         Intent retourAccueil = new Intent(this, Accueil.class);
         startActivity(retourAccueil);
         this.finish();
@@ -68,12 +66,8 @@ public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtili
         Boolean premiereUtilisation = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
 
-        if (premiereUtilisation) {
-            //Checker si utilisateur dans BDD plutot que si premier démarrage
-        } else {
-            startActivity(new Intent(this, Accueil.class));
-            this.finish();
-        }
+        if (!premiereUtilisation)
+            naviguerRetourAccueil();
 
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();

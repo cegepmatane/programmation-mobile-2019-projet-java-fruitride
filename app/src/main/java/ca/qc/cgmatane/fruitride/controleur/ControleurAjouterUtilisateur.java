@@ -19,7 +19,7 @@ public class ControleurAjouterUtilisateur implements Controleur {
     public void actionEnregistrerUtilisateur(Utilisateur utilisateur) {
         accesseurUtilisateur = UtilisateurDAO.getInstance();
         accesseurUtilisateur.ajouterUtilisateur(utilisateur);
-        vue.naviguerRetourClub();
+        vue.naviguerRetourAccueil();
     }
 
     @Override
