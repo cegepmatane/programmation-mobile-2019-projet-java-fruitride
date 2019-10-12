@@ -38,8 +38,8 @@ import java.util.Date;
 import java.util.List;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.controleur.Controleur;
 import ca.qc.cgmatane.fruitride.controleur.ControleurCarte;
-import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
 import ca.qc.cgmatane.fruitride.gesture.ListenerSwipe;
 
@@ -48,16 +48,6 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
 
     private List<Fruit> listeFruit;
     private ImageView imageView;
-
-    Location localisationActuelle;
-    FusedLocationProviderClient fusedLocationProviderClient;
-
-    private static final int CODE_REQUETE_AUTORISATION_LOCALISATION = 101;
-    private static final int CODE_REQUETE_AUTORISATION_CAMERA = 102;
-    private static final int CODE_REQUETE_AUTORISATION_STOCKAGE = 103;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int ZOOM_PAR_DEFAUT = 15;
-    private static final int ZOOM_MINIMUM = 12;
 
     protected ControleurCarte controleurCarte = new ControleurCarte(this);
 
@@ -106,8 +96,15 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
 
     @Override
     public void accederLocalisation() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        controleurCarte.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         recupererLocalisationEtDemanderAutorisationSiBesoin();
+    }
+
+    @Override
+    public void afficherFruits(GoogleMap googleMap) {
+        for (Fruit fruit : listeFruit) {
+            googleMap.addMarker(fruit.getMarkerFruit());
+        }
     }
 
     @Override
@@ -116,14 +113,14 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {
                     Manifest.permission.ACCESS_FINE_LOCATION }
-                    , CODE_REQUETE_AUTORISATION_LOCALISATION );
+                    , ControleurCarte.CODE_REQUETE_AUTORISATION_LOCALISATION );
         }
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        Task<Location> task = controleurCarte.fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    localisationActuelle = location;
+                    controleurCarte.localisationActuelle = location;
                     /*Toast.makeText(getApplicationContext(), localisationActuelle.getLatitude()
                             + " " + localisationActuelle.getLongitude(), Toast.LENGTH_SHORT).show();*/
                     SupportMapFragment supportMapFragment =
@@ -137,17 +134,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setMinZoomPreference(ZOOM_MINIMUM);
-        LatLng localisationActuelleLatLng =
-                new LatLng(localisationActuelle.getLatitude(), localisationActuelle.getLongitude());
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(localisationActuelleLatLng));
-        googleMap.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(localisationActuelleLatLng, ZOOM_PAR_DEFAUT));
-        googleMap.setMyLocationEnabled(true);
-
-        for (Fruit fruit : listeFruit) {
-            googleMap.addMarker(fruit.getMarkerFruit());
-        }
+        controleurCarte.onMapReady(googleMap);
     }
 
     @Override
@@ -162,7 +149,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {
                             Manifest.permission.CAMERA }
-                    , CODE_REQUETE_AUTORISATION_CAMERA );
+                    , ControleurCarte.CODE_REQUETE_AUTORISATION_CAMERA );
         } else {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -178,7 +165,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
                             "com.example.android.fileprovider",
                             photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent, controleurCarte.CODE_REQUETE_CAPTURE_IMAGE);
                 }
             }
 
@@ -186,21 +173,14 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE}
-                        , CODE_REQUETE_AUTORISATION_STOCKAGE);
+                        , ControleurCarte.CODE_REQUETE_AUTORISATION_STOCKAGE);
             }
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            ajouterImageALaGallerie();
-            afficherImage();
-            Toast.makeText(this, "Photo enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
-            /*Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            this.imageView.setImageBitmap(imageBitmap);*/
-        }
+        controleurCarte.onActivityResult(requestCode, resultCode, data);
     }
 
     String currentPhotoPath;
@@ -233,7 +213,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
-        System.out.println("ENREGISTREMENT PHOTO " + contentUri.toString());
+//        System.out.println("ENREGISTREMENT PHOTO " + contentUri.toString());
     }
 
     public void afficherImage() {
