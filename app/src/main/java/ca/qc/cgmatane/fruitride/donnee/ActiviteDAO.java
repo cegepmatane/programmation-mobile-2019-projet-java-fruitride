@@ -88,9 +88,9 @@ public class ActiviteDAO {
     }
 
 
-    public void enregistrerNombreDePas(float nbPas) {
+    public void enregistrerNombreDePas(Activite activite) {
         SQLiteDatabase db = accesseurBaseDeDonnees.getWritableDatabase();
-        SQLiteStatement query = db.compileStatement("UPDATE activite SET nb_pas = " + nbPas
+        SQLiteStatement query = db.compileStatement("UPDATE activite SET nb_pas = " + activite.getNombreDePas()
                 + " WHERE date = '" + dateDuJour() + "'");
         query.execute();
     }

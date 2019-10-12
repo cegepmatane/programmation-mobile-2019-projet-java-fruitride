@@ -17,6 +17,7 @@ public class ControleurAjouterUtilisateur implements Controleur {
     }
 
     public void actionEnregistrerUtilisateur(Utilisateur utilisateur) {
+
         accesseurUtilisateur = UtilisateurDAO.getInstance();
         accesseurUtilisateur.ajouterUtilisateur(utilisateur);
         vue.naviguerRetourAccueil();
@@ -24,6 +25,7 @@ public class ControleurAjouterUtilisateur implements Controleur {
 
     @Override
     public void onCreate(Context applicationContext) {
+
         BaseDeDonnee.getInstance(applicationContext);
     }
 

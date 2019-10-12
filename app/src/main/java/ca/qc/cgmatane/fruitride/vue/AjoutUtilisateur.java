@@ -56,12 +56,14 @@ public class AjoutUtilisateur extends AppCompatActivity implements VueAjoutUtili
     }
 
     public void naviguerRetourAccueil() {
+
         Intent retourAccueil = new Intent(this, Accueil.class);
         startActivity(retourAccueil);
         this.finish();
     }
 
     public void testSiPremiereUtilisation() {
+
         // VARIABLE QUI RENVOIS TRUE SI C'EST LA PREMIERE FOIS QUE L'APPLICATION EST LANCEE
         Boolean premiereUtilisation = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);

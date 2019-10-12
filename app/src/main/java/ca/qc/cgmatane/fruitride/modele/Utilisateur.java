@@ -23,6 +23,14 @@ public class Utilisateur {
         this.id_utilisateur = id_utilisateur;
     }
 
+    public Utilisateur(String nom, String prenom, int niveau, int experience, int id_utilisateur) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.niveau = niveau;
+        this.experience = experience;
+        this.id_utilisateur = id_utilisateur;
+    }
+
     public String getNom() {
         return nom;
     }
