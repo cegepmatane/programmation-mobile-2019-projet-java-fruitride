@@ -55,12 +55,6 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
     protected float etatPodometre;
     protected float etatPodometreAuDemarrage;
 
-    protected UtilisateurDAO accesseurUtilisateur;
-    protected Utilisateur utilisateur;
-
-    protected ActiviteDAO accesseurActivite;
-    protected Activite activite;
-
     protected ControleurAccueil controleurAccueil = new ControleurAccueil(this);
 
     // POUR LE TEST UNIQUEMENT
@@ -80,7 +74,6 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         vueAccueilNombreDePas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
-        vueAccueilNombreDePas.setText(Float.toString(activite.getNombreDePas()));
 
         vueAccueilNiveauUtilisateur = (TextView)findViewById(R.id.vue_score_label_niveau_joueur);
 
@@ -92,23 +85,15 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
     public void initialiserBarreDeNiveau() {
 
         vueAccueilBarreDeNiveau = (ProgressBar)findViewById(R.id.vue_score_barre_de_niveau);
-        vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
+        vueAccueilBarreDeNiveau.setProgress(controleurAccueil.actionRecupererExperienceUtilisateur() % 100);
         vueAccueilBarreDeNiveau.setScaleY(EPAISSEUR_BARRE_DE_NIVEAU);
         vueAccueilBarreDeNiveau.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
 
-    public void initialiserUtilisateur() {
+    @SuppressLint("SetTextI18n")
+    public void initialiserTexteNombreDePas() {
 
-        accesseurUtilisateur = UtilisateurDAO.getInstance();
-        utilisateur = accesseurUtilisateur.recupererUtilisateur();
-    }
-
-    public void initialiserActivite() {
-
-        accesseurActivite = ActiviteDAO.getInstance();
-        accesseurActivite.isActiviteAjourdhui(new Activite(Calendar.getInstance(),0,
-                0,utilisateur.getId_utilisateur()));
-        activite = accesseurActivite.recupererActivite();
+        vueAccueilNombreDePas.setText(Float.toString(controleurAccueil.actionRecupererNombreDePasActivite()));
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -180,16 +165,16 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
                 etatPodometre = nombreDePasPodometre;
                 premiereOuverture = false;
             }
-            float nombreDePas = (nombreDePasPodometre - etatPodometreAuDemarrage) + activite.getNombreDePas();
-            int experience = Math.round(utilisateur.getExperience() + (nombreDePasPodometre - etatPodometre));
+            float nombreDePas = (nombreDePasPodometre - etatPodometreAuDemarrage) + controleurAccueil.actionRecupererNombreDePasActivite();
+            int experience = Math.round(controleurAccueil.actionRecupererExperienceUtilisateur() + (nombreDePasPodometre - etatPodometre));
 
             vueAccueilNombreDePas.setText(String.valueOf(nombreDePas));
 
-            utilisateur.setExperience(experience);
-            utilisateur.setNiveau(experience / 100);
+            controleurAccueil.actionDefinirExperienceUtilisateur(experience);
+            controleurAccueil.actionDefinirNiveauUtilisateur(experience / 100);
 
-            vueAccueilNiveauUtilisateur.setText("Niveau : " + utilisateur.getNiveau());
-            vueAccueilBarreDeNiveau.setProgress(utilisateur.getExperience() % 100);
+            vueAccueilNiveauUtilisateur.setText("Niveau : " + controleurAccueil.actionRecupererNiveauUtilisateur());
+            vueAccueilBarreDeNiveau.setProgress(controleurAccueil.actionRecupererExperienceUtilisateur() % 100);
 
             etatPodometre = nombreDePasPodometre;
         }
@@ -203,15 +188,23 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
 
         super.onDestroy();
         startService( new Intent( this, NotificationService. class ));
-        accesseurActivite.enregistrerNombreDePas((etatPodometre - etatPodometreAuDemarrage) + activite.getNombreDePas());
-        accesseurUtilisateur.enregistrerExperience(utilisateur);
+
+        Activite activite = new Activite( (etatPodometre - etatPodometreAuDemarrage) + controleurAccueil.actionRecupererNombreDePasActivite());
+        Utilisateur utilisateur = new Utilisateur(controleurAccueil.actionRecupererNomUtilisateur(),
+                controleurAccueil.actionRecupererPrenomUtilisateur(),
+                controleurAccueil.actionRecupererExperienceUtilisateur(),
+                controleurAccueil.actionRecupererExperienceUtilisateur(),
+                controleurAccueil.actionRecupererIdUtilisateur());
+
+        controleurAccueil.actionEnregistrerActivite(activite);
+        controleurAccueil.actionEnregistrerUtilisateur(utilisateur);
     }
 
     @SuppressLint("SetTextI18n")
     public void afficherUtilisateur() {
 
         vueAccueilNomUtilisateur = (TextView) findViewById(R.id.vue_score_label_nom_joueur);
-        vueAccueilNomUtilisateur.setText(utilisateur.getNom() + " " + utilisateur.getPrenom());
+        vueAccueilNomUtilisateur.setText(controleurAccueil.actionRecupererNomUtilisateur() + " " + controleurAccueil.actionRecupererPrenomUtilisateur());
     }
 
     @Override
