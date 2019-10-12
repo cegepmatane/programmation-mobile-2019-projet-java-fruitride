@@ -19,4 +19,5 @@ public interface VueCarte {
     void chargerIconesFruitPourMarkers();
     void accederLocalisation();
     void afficherFruits(GoogleMap googleMap);
+    public void afficherPhotoPrise();
 }

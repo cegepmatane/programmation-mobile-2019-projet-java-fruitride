@@ -160,7 +160,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
                             "com.example.android.fileprovider",
                             photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, controleurCarte.CODE_REQUETE_CAPTURE_IMAGE);
+                    startActivityForResult(takePictureIntent, ControleurCarte.CODE_REQUETE_CAPTURE_IMAGE);
                 }
             }
 
@@ -197,6 +197,13 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         // Save a file: path for use with ACTION_VIEW intents
         controleurCarte.emplacementPhoto = image.getAbsolutePath();
         return image;
+    }
+
+    @Override
+    public void afficherPhotoPrise() {
+        Intent intent = new Intent(this, AffichagePhotoPrise.class);
+        intent.putExtra("imagePath", controleurCarte.emplacementPhoto);
+        startActivityForResult(intent, 123);
     }
 
     @Override

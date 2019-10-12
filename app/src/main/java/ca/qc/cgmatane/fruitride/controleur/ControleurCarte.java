@@ -80,6 +80,7 @@ public class ControleurCarte implements Controleur {
         if (requestCode == CODE_REQUETE_CAPTURE_IMAGE && resultCode == Activity.RESULT_OK) {
             vue.ajouterImageALaGallerie();
             vue.afficherImage();
+            vue.afficherPhotoPrise();
 //            Toast.makeText(this, "Photo enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
             /*Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");

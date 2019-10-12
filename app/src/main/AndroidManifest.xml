@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,11 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".vue.AffichagePhotoPrise"></activity>
         <activity android:name=".vue.Configuration" />
         <activity android:name=".vue.Carte" />
         <activity android:name=".vue.Statistique" />
-        <activity android:name=".vue.Accueil"/>
-        <activity android:name=".vue.AjoutUtilisateur" android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".vue.Accueil" />
+        <activity
+            android:name=".vue.AjoutUtilisateur"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,12 +33,12 @@
         </activity>
 
         <service
-            android:name = ".accestelephone.NotificationService"
-            android:label = "@string/app_name" >
+            android:name=".accestelephone.NotificationService"
+            android:label="@string/app_name">
             <intent-filter>
-                <action
-                    android:name = "app.tutorialspoint.com.notifyme.NotificationService" />
-                <category android:name= "android.intent.category.DEFAULT" />
+                <action android:name="app.tutorialspoint.com.notifyme.NotificationService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 
@@ -52,9 +53,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>
