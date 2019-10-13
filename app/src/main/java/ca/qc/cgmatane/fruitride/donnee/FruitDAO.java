@@ -25,6 +25,9 @@ public class FruitDAO {
         listeFruit.add(new Fruit(48.840981, -67.497192, "apple"));
         listeFruit.add(new Fruit(48.840984, -67.500000, "pear"));
         listeFruit.add(new Fruit(48.841000, -67.497492, "pineapple"));
+        listeFruit.get(0).setIdFruit(1);
+        listeFruit.get(1).setIdFruit(2);
+        listeFruit.get(2).setIdFruit(3);
     }
 
     public void ajouterFruit(Fruit fruit) {
