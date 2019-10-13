@@ -4,4 +4,5 @@ public interface VueAffichagePhotoPrise {
 
     void afficherImage();
     void ajouterImageALaGallerie();
+    void partagerImage();
 }

@@ -55,6 +55,11 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
     }
 
     @Override
+    public void partagerImage() {
+
+    }
+
+    @Override
     public void afficherImage() {
         // Get the dimensions of the View
         int targetW = imageView.getMaxWidth();
