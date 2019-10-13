@@ -14,7 +14,7 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class RequestHandler {
+public class CreateurRequete {
 
     public String getRequest(String uri) {
         try {
@@ -39,19 +39,19 @@ public class RequestHandler {
     public String postRequest(String requestURL, HashMap<String, String> postDataParams) {
 
         URL url;
-        String response = "";
+        String reponse = "";
         try {
             url = new URL(requestURL);
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
+            HttpURLConnection connexion = (HttpURLConnection) url.openConnection();
+            connexion.setReadTimeout(15000);
+            connexion.setConnectTimeout(15000);
+            connexion.setRequestMethod("POST");
+            connexion.setDoInput(true);
+            connexion.setDoOutput(true);
 
 
-            OutputStream os = conn.getOutputStream();
+            OutputStream os = connexion.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
             writer.write(getPostDataString(postDataParams));
@@ -59,19 +59,19 @@ public class RequestHandler {
             writer.flush();
             writer.close();
             os.close();
-            int responseCode = conn.getResponseCode();
+            int responseCode = connexion.getResponseCode();
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                response = br.readLine();
+                BufferedReader br = new BufferedReader(new InputStreamReader(connexion.getInputStream()));
+                reponse = br.readLine();
             } else {
-                response = "Error Registering";
+                reponse = "Error Registering";
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return response;
+        return reponse;
     }
 
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
