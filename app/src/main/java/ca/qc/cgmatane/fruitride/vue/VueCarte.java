@@ -14,10 +14,9 @@ public interface VueCarte {
     void ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
     File creerImage() throws IOException;
     void ajouterImageALaGallerie();
-    void afficherImage();
     void setListeFruit(List<Fruit> listeFruit);
     void chargerIconesFruitPourMarkers();
     void accederLocalisation();
     void afficherFruits(GoogleMap googleMap);
-    public void afficherPhotoPrise();
+    public void naviguerVersPhotoPrise();
 }

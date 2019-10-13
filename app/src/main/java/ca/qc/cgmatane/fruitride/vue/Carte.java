@@ -42,7 +42,6 @@ import ca.qc.cgmatane.fruitride.gesture.ListenerSwipe;
 public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCarte {
 
     private List<Fruit> listeFruit;
-    private ImageView imageView;
 
     protected ControleurCarte controleurCarte = new ControleurCarte(this);
 
@@ -50,8 +49,6 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_carte);
-
-        imageView = findViewById(R.id.imageView);
 
         Button bouton = findViewById(R.id.button2);
 
@@ -200,7 +197,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     }
 
     @Override
-    public void afficherPhotoPrise() {
+    public void naviguerVersPhotoPrise() {
         Intent intent = new Intent(this, AffichagePhotoPrise.class);
         intent.putExtra(ControleurCarte.ID_CHEMIN_IMAGE, controleurCarte.emplacementPhoto);
         startActivityForResult(intent, 123);
@@ -214,30 +211,6 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
 //        System.out.println("ENREGISTREMENT PHOTO " + contentUri.toString());
-    }
-
-    public void afficherImage() {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(controleurCarte.emplacementPhoto, bmOptions);
-        imageView.setImageBitmap(bitmap);
     }
 
     @Override
