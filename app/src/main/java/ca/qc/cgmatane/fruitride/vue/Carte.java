@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
@@ -18,7 +17,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
@@ -147,7 +145,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 File photoFile = null;
                 try {
-                    photoFile = creerImage();
+                    photoFile = enregistrerImage();
                 } catch (IOException ex) {
                     // Error occurred while creating the File
                 }
@@ -176,7 +174,7 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     }
 
     @Override
-    public File creerImage() throws IOException {
+    public File enregistrerImage() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -201,16 +199,6 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         Intent intent = new Intent(this, AffichagePhotoPrise.class);
         intent.putExtra(ControleurCarte.ID_CHEMIN_IMAGE, controleurCarte.emplacementPhoto);
         startActivityForResult(intent, 123);
-    }
-
-    @Override
-    public void ajouterImageALaGallerie() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(controleurCarte.emplacementPhoto);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-//        System.out.println("ENREGISTREMENT PHOTO " + contentUri.toString());
     }
 
     @Override

@@ -12,11 +12,10 @@ public interface VueCarte {
     void naviguerAccueil();
     void recupererLocalisationEtDemanderAutorisationSiBesoin();
     void ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
-    File creerImage() throws IOException;
-    void ajouterImageALaGallerie();
+    File enregistrerImage() throws IOException;
     void setListeFruit(List<Fruit> listeFruit);
     void chargerIconesFruitPourMarkers();
     void accederLocalisation();
     void afficherFruits(GoogleMap googleMap);
-    public void naviguerVersPhotoPrise();
+    void naviguerVersPhotoPrise();
 }

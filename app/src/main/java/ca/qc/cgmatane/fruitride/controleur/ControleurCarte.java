@@ -79,7 +79,6 @@ public class ControleurCarte implements Controleur {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE_REQUETE_CAPTURE_IMAGE && resultCode == Activity.RESULT_OK) {
-            vue.ajouterImageALaGallerie();
             vue.naviguerVersPhotoPrise();
 //            Toast.makeText(this, "Photo enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
             /*Bundle extras = data.getExtras();

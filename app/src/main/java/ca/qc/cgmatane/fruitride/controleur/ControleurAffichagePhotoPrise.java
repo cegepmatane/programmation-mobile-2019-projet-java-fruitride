@@ -22,6 +22,10 @@ public class ControleurAffichagePhotoPrise implements Controleur {
         this.cheminImage = cheminImage;
     }
 
+    public void ajouterImageALaGallerie() {
+        vue.ajouterImageALaGallerie();
+    }
+
     @Override
     public void onCreate(Context applicationContext) {
 
