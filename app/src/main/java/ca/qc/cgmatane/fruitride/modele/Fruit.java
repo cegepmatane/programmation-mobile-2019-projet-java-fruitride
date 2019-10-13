@@ -9,6 +9,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import ca.qc.cgmatane.fruitride.R;
 
 public class Fruit {
+
+    public static final String CLE_ID_FRUIT = "id_fruit";
+
     protected int idFruit;
     protected double latitude;
     protected double longitude;

@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ca.qc.cgmatane.fruitride">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".vue.AffichagePhotoPrise"></activity>
+        <activity android:name=".vue.AffichagePhotosFruit"></activity>
+        <activity android:name=".vue.AffichagePhotoPrise" />
         <activity android:name=".vue.Configuration" />
         <activity android:name=".vue.Carte" />
         <activity android:name=".vue.Statistique" />
