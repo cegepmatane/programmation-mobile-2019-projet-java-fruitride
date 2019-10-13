@@ -97,14 +97,14 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         for (Fruit fruit : listeFruit) {
             googleMap.addMarker(fruit.getMarkerFruit());
         }
+        final Intent naviguerVersPhotos = new Intent(this, AffichagePhotosFruit.class);
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 for (Fruit fruit : listeFruit) {
                     if (marker.getPosition().equals(fruit.getMarkerFruit().getPosition())){
-                        Intent naviguerVersPhotos = new Intent(Carte.this, AffichagePhotosFruit.class);
                         naviguerVersPhotos.putExtra(Fruit.CLE_ID_FRUIT, fruit.getIdFruit());
-                        startActivity(naviguerVersPhotos);
+                        startActivityForResult(naviguerVersPhotos, 13);
                         Log.d("MARKER", fruit.getIdFruit()+"");
                     }
                 }
