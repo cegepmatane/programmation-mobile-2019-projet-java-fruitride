@@ -5,7 +5,8 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vue.Accueil">
+    tools:context=".vue.Accueil"
+    android:background="@drawable/gradient">
 
     <ProgressBar
         android:id="@+id/vue_score_barre_de_niveau"
@@ -32,6 +33,7 @@
         android:layout_marginBottom="404dp"
         android:text="0"
         android:textAlignment="center"
+        android:textColor="#BE0D0D"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +49,7 @@
         android:layout_marginBottom="50dp"
         android:text="Chateau Lucas"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/vue_score_label_nombre_de_pas"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,6 +64,7 @@
         android:layout_marginBottom="137dp"
         android:text="Niveau : "
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
