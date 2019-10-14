@@ -6,7 +6,8 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vue.Carte">
+    tools:context=".vue.Carte"
+    android:background="@drawable/gradient">
 
     <Button
         android:id="@+id/button2"

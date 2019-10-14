@@ -5,7 +5,8 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vue.Configuration">
+    tools:context=".vue.Configuration"
+    android:background="@drawable/gradient">
 
     <!-- <com.google.android.material.chip.Chip
         android:id="@+id/boutonActivationLieuxAproximite"

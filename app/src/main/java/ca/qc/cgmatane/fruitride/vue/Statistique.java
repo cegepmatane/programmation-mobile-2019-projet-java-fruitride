@@ -72,13 +72,13 @@ public class Statistique extends AppCompatActivity implements VueStatistique {
                 .anchor(Anchor.CENTER_BOTTOM)
                 .background("#006400")
         .title(true)
-        //.format()
         ;
 
         cartesien.animation(true);
         cartesien.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesien.interactivity().hoverMode(HoverMode.BY_X);
         cartesien.title("Vos pas cette semaine");
+        cartesien.lineMarker("#006400");
 
         columnChart.setChart(cartesien);
     }
