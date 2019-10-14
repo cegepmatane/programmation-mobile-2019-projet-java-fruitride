@@ -69,7 +69,11 @@ public class Statistique extends AppCompatActivity implements VueStatistique {
         Column colonne = cartesien.column(controleurStatistique.getData(listeJour));
         colonne.tooltip()
                 .position(Position.CENTER_BOTTOM)
-                .anchor(Anchor.CENTER_BOTTOM);
+                .anchor(Anchor.CENTER_BOTTOM)
+                .background("#006400")
+        .title(true)
+        //.format()
+        ;
 
         cartesien.animation(true);
         cartesien.tooltip().positionMode(TooltipPositionMode.POINT);

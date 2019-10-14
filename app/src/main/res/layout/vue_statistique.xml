@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vue.Statistique">
+    tools:context=".vue.Statistique"
+    android:background="@drawable/gradient">
 
     <com.anychart.AnyChartView
         android:id="@+id/columnChart"
