@@ -20,7 +20,7 @@ public class Configuration extends AppCompatActivity implements VueConfiguration
 
     protected ControleurConfiguration controleurConfiguration = new ControleurConfiguration(this);
     protected RadioGroup groupeRadioBoutons;
-    protected RadioButton radioBouton;
+    protected RadioButton radioBouton, boutonThemeClair, boutonThemeSombre;
     protected Switch notifications, lieux;
 
     private LectureEcriture lectureEcriture;
@@ -44,6 +44,21 @@ public class Configuration extends AppCompatActivity implements VueConfiguration
         groupeRadioBoutons = findViewById(R.id.groupeRadioButtonChoixTheme);
 
         notifications = (Switch) findViewById(R.id.boutonActiverNotification);
+        lieux = (Switch) findViewById(R.id.boutonActiverLieuxAproximiter);
+
+        boutonThemeClair = findViewById(R.id.radioButtonThemeClair);
+        boutonThemeSombre = findViewById(R.id.radioButtonThemeSombre);
+        //On affiche l'état des boutons selon le contenu du fichier XML
+
+        if(lectureEcriture.themeClair()){
+            boutonThemeClair.setChecked(true);
+        } else {
+            boutonThemeSombre.setChecked(true);
+        }
+
+        notifications.setChecked(lectureEcriture.notificationsActives());
+        lieux.setChecked(lectureEcriture.lieuxAproximiteActifs());
+
         notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -58,7 +73,6 @@ public class Configuration extends AppCompatActivity implements VueConfiguration
             }
         });
 
-        lieux = (Switch) findViewById(R.id.boutonActiverLieuxAproximiter);
         lieux.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
