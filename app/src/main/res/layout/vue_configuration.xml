@@ -30,13 +30,15 @@
             android:id="@+id/radioButtonThemeSombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sombre" />
+            android:text="Sombre"
+            android:onClick="verificationBouton" />
 
         <RadioButton
             android:id="@+id/radioButtonThemeClair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clair" />
+            android:text="Clair"
+            android:onClick="verificationBouton" />
     </RadioGroup>
 
     <Switch
