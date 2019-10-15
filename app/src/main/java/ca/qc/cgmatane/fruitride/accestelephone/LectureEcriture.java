@@ -196,7 +196,7 @@ public class LectureEcriture {
         return resultat;
     }
 
-    // getters et setters
+    // getters
 
     public boolean themeClair() {
         return(theme.equals("clair"));
@@ -208,6 +208,32 @@ public class LectureEcriture {
 
     public boolean lieuxAproximiteActifs() {
         return(lieux.equals("true"));
+    }
+
+    // setters
+
+    public void choisirThemeSombre() {
+        this.theme = "sombre";
+    }
+
+    public void choisirThemeClair() {
+        this.theme = "clair";
+    }
+
+    public void activerNotification() {
+        this.notifications = "true"; //ne pas oublier que c'est un STRING !
+    }
+
+    public void desactiverNotification() {
+        this.notifications = "false";
+    }
+
+    public void activerLieuxAproximite() {
+        this.lieux = "true";
+    }
+
+    public void desactiverLieuxAproximite() {
+        this.lieux = "false";
     }
 
 }
