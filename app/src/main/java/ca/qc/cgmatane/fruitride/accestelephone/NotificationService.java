@@ -26,6 +26,9 @@ public class NotificationService extends Service {
     String TAG = "Timers";
     int Your_X_SECS = 14400;
 
+    //Désactivation des notifications via XML
+    LectureEcriture lectureEcriture;
+
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
@@ -34,7 +37,13 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        startTimer();
+
+        //activation des notifications selon le XML
+        lectureEcriture = new LectureEcriture(this);
+        if (lectureEcriture.notificationsActives()){
+            startTimer();
+        }
+
         return START_STICKY;
     }
 

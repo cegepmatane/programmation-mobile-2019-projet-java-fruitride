@@ -52,20 +52,16 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
 
     protected ControleurAccueil controleurAccueil = new ControleurAccueil(this);
 
-    // POUR LE TEST UNIQUEMENT
-    private LectureEcriture lectureEcriture;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil);
 
-        //DESACTIVER L'ENVOI DE NOTIFICATION
+        //DÉSACTIVER L'ENVOI DE NOTIFICATION
         stopService(new Intent( this, NotificationService. class));
 
-        //DESACTIVER LA ROTATION D'ECRAN
+        //DÉSACTIVER LA ROTATION D'ÉCRAN
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         vueAccueilNombreDePas = (TextView)findViewById(R.id.vue_score_label_nombre_de_pas);
@@ -220,20 +216,3 @@ public class Accueil extends AppCompatActivity implements SensorEventListener, V
         startActivity(intentionNaviguerConfiguration);
     }
 }
-
-        /*
-        /// ZONE DE TEST UNIQUEMENT ////
-        lectureEcriture = new LectureEcriture(this);
-
-        Log.d("TEST EXISTANCE DU FICHIER (nég au premier lauch, pos ap. : ","" + lectureEcriture.fichierPret(this));
-
-        //On écrit qqch dans le fichier
-        lectureEcriture.miseAjourXML(this);
-
-        Log.d("TEST I/O","Thème clair : "+lectureEcriture.themeClair());
-        Log.d("TEST I/O", "Notifs : "+lectureEcriture.notificationsActives());
-        Log.d("TEST I/O", "Lieux à prox. : "+lectureEcriture.lieuxAproximiteActifs());
-
-        //// FIN ////
-
-         */
