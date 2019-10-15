@@ -30,7 +30,11 @@ public class LectureEcriture {
     private String notifications = "false";
     private String lieux = "false";
 
-    //construsteur (test)
+    /**
+     * Constructeur
+     *
+     * @param contexte contexte d'appel de la méthode
+     */
     public LectureEcriture(Context contexte){
         nomDuFichier = "configuration.xml";
 
@@ -46,7 +50,8 @@ public class LectureEcriture {
 
     /**
      * Méthode publique de mise à jour du fichier XML
-     * @param contexte
+     *
+     * @param contexte contexte d'appel de la méthode
      */
     public void miseAjourXML(Context contexte) {
         ecrireDansLeFichier(importerInformationsDansXML(), contexte);
@@ -54,8 +59,9 @@ public class LectureEcriture {
 
     /**
      * Méthode pour ÉCRIRE dans le fichier
-     * @param donneesAecrire
-     * @param context
+     *
+     * @param donneesAecrire string du contenu à placer dans le fichier XML
+     * @param context contexte d'appel de la méthode
      */
     private void ecrireDansLeFichier(String donneesAecrire, Context context) {
         try {
@@ -70,8 +76,9 @@ public class LectureEcriture {
 
     /**
      * Méthode pour LIRE depuis le fichier
-     * @param context
-     * @return
+     *
+     * @param context le contexte d'appel de la méthode
+     * @return une string qui contient tout le contenu du fichier XML
      */
     private String lireDepuisLeFichier(Context context) {
 
@@ -106,6 +113,7 @@ public class LectureEcriture {
     /**
      * Méthode pour extraire les infos depuis l'XML vers des variables
      *
+     * @param donneesLues contient tout le contenu du fichier XML dans une string
      */
     private void extraireInformationsDepuisXML(String donneesLues) {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -153,6 +161,8 @@ public class LectureEcriture {
 
     /**
      * Méthode pour copier les valeurs locales dans le fichier XML
+     *
+     * @return une string qui constitue le nouveau contenu du fichier XML
      */
     private String importerInformationsDansXML(){
 
@@ -170,8 +180,9 @@ public class LectureEcriture {
 
     /**
      * Méthode pour VÉRIFIER l'existance et/ou l'accessibilité du fichier.
-     * @param context
-     * @return
+     *
+     * @param context contexte d'appel de la méthode.
+     * @return un booléen, true si le fichier est prêt.
      */
     public boolean fichierPret(Context context) {
 
