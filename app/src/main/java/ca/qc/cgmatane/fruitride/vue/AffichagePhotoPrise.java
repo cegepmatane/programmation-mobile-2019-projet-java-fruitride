@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +32,9 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
     protected ImageView imageView;
 
     public static final String URL_ENVOI = "https://test-qr-response.real-it.duckdns.org/upload_image.php";
+    public static final String URL_AJOUT_IMAGE_BD = "https://fruitride.real-it.duckdns.org/image-ajouter-";
     public static final String CLE_ENVOI = "image";
+    int idFruit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
         Bundle bundle = getIntent().getExtras();
         controleurAffichagePhotoPrise.setCheminImage(
                 bundle.getString(ControleurCarte.ID_CHEMIN_IMAGE));
+        idFruit = (int) bundle.get(AffichagePhotosFruit.ID_FRUIT);
         imageView = findViewById(R.id.affichage_photo_prise_image);
         afficherImage();
 
@@ -87,11 +91,12 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
         class PartageImage extends AsyncTask<Bitmap,Void,String> {
             ProgressDialog avancementEnvoi;
             CreateurRequeteImage requeteEnvoi = new CreateurRequeteImage();
+            CreateurRequeteImage requeteEnvoi2 = new CreateurRequeteImage();
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                avancementEnvoi = ProgressDialog.show(AffichagePhotoPrise.this, "Partage de l'affichagePhotoFruitImage1", "Veuillez attendre ...",true,true);
+                avancementEnvoi = ProgressDialog.show(AffichagePhotoPrise.this, "Partage de l'image", "Veuillez attendre ...",true,true);
             }
 
             @Override
@@ -110,6 +115,7 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
                 data.put(CLE_ENVOI, imageEncodee);
                 data.put("name", avoirNomImage(controleurAffichagePhotoPrise.getCheminImage()));
 
+                String result2 = requeteEnvoi2.getRequest(URL_AJOUT_IMAGE_BD + idFruit + "-" + avoirNomImage(controleurAffichagePhotoPrise.getCheminImage()));
                 String result = requeteEnvoi.postRequest(URL_ENVOI,data);
                 return result;
             }
@@ -117,6 +123,7 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
 
         PartageImage partageImage = new PartageImage();
         partageImage.execute(BitmapFactory.decodeFile(controleurAffichagePhotoPrise.getCheminImage()));
+
     }
 
     String avoirNomImage(String chemin) {

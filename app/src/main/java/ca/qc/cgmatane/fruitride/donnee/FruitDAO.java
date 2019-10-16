@@ -2,6 +2,7 @@ package ca.qc.cgmatane.fruitride.donnee;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,10 @@ public class FruitDAO {
             listeChemins.add(chemin.get(i));
         }
         return listeChemins;
+
+    }
+
+    public void ajouterImageParIdFruit(int idFruit) {
 
     }
 

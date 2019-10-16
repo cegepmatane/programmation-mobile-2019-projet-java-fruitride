@@ -35,6 +35,7 @@ import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
 
 public class AffichagePhotosFruit extends AppCompatActivity {
+    public static final String ID_FRUIT = "id_fruit";
     protected int idFruitParametres;
     String URL = "https://test-qr-response.real-it.duckdns.org/upload/";
     ImageView affichagePhotoFruitImage1;
@@ -64,16 +65,13 @@ public class AffichagePhotosFruit extends AppCompatActivity {
 
         FruitDAO lala =  FruitDAO.getInstance();
          listeImages = lala.recupererImageFruitParId(idFruitParametres);
-        /*switch (listeImages.size()) {
-            case 1:
-                new TelechargerImage1().execute(URL + listeImages.get(0));
-                break;
-            case 2:
-                new TelechargerImage1().execute(URL + listeImages.get(0));
-                new TelechargerImage2().execute(URL + listeImages.get(1));
-                break;
-
-        }*/
+        int size = listeImages.size();
+        if (size == 1) {
+            new TelechargerImage1().execute(URL + listeImages.get(0));
+        } else if (size >= 2) {
+            new TelechargerImage1().execute(URL + listeImages.get(0));
+            new TelechargerImage2().execute(URL + listeImages.get(1));
+        }
 
         // Capture affichagePhotoFruitBoutonPrendrePhoto click
         affichagePhotoFruitBoutonPrendrePhoto.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +162,7 @@ public class AffichagePhotosFruit extends AppCompatActivity {
     public void naviguerVersPhotoPrise() {
         Intent intent = new Intent(this, AffichagePhotoPrise.class);
         intent.putExtra(ControleurCarte.ID_CHEMIN_IMAGE, emplacementPhoto);
+        intent.putExtra(ID_FRUIT, idFruitParametres);
         startActivityForResult(intent, 123);
     }
 
