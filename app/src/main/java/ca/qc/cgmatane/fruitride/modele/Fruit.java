@@ -23,6 +23,26 @@ public class Fruit {
 
     private static final String APPLE = "apple";
 
+    public Fruit(int idFruit, double latitude, double longitude, String typeDuFruit) {
+        this.idFruit = idFruit;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.typeDuFruit = typeDuFruit;
+        switch (typeDuFruit) {
+            case "apple":
+                this.idResourceLogo = R.drawable.apple;
+                break;
+            case "pear":
+                this.idResourceLogo = R.drawable.pear;
+                break;
+            case "pineapple":
+                this.idResourceLogo = R.drawable.pineapple;
+                break;
+            default:
+                this.idResourceLogo = R.drawable.orange;
+        }
+    }
+
     public Fruit(double latitude, double longitude, String typeDuFruit) {
         this.latitude = latitude;
         this.longitude = longitude;
