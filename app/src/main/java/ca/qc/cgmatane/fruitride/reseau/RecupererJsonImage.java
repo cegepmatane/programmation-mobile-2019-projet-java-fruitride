@@ -17,26 +17,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RecupererJsonImage extends AsyncTask<Void,Void,Void> {
+public class RecupererJsonImage extends AsyncTask<String,Void,Void> {
 
     String data ="";
-    List<String> id;
-    List<String> latitude;
-    List<String> longitude;
-    List<String> type;
+    List<String> id_image;
+    List<String> chemin;
+    List<String> id_fruit;
     boolean finish = false;
+    final static String URL = "https://fruitride.real-it.duckdns.org/images-fruit-";
 
     public RecupererJsonImage() {
-        id = new ArrayList<>();
-        latitude = new ArrayList<>();
-        longitude = new ArrayList<>();
-        type = new ArrayList<>();
+        id_image = new ArrayList<>();
+        chemin = new ArrayList<>();
+        id_fruit = new ArrayList<>();
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected Void doInBackground(String... params) {
         try {
-            URL url = new URL("https://fruitride.real-it.duckdns.org/fruits");
+            String id = params[0];
+            String urlService = URL + id;
+            URL url = new URL(urlService);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -49,10 +50,9 @@ public class RecupererJsonImage extends AsyncTask<Void,Void,Void> {
             JSONObject JA = new JSONObject(data);
 
             for(int i =0 ;i < JA.length(); i++){
-                this.id.add(JA.getJSONObject(String.valueOf(i)).getString("id_fruit"));
-                this.latitude.add(JA.getJSONObject(String.valueOf(i)).getString("latitude"));
-                this.longitude.add(JA.getJSONObject(String.valueOf(i)).getString("longitude"));
-                this.type.add(JA.getJSONObject(String.valueOf(i)).getString("type_fruit"));
+                this.id_image.add(JA.getJSONObject(String.valueOf(i)).getString("id"));
+                this.chemin.add(JA.getJSONObject(String.valueOf(i)).getString("chemin"));
+                this.id_fruit.add(JA.getJSONObject(String.valueOf(i)).getString("id_fruit"));
             }
 
         } catch (MalformedURLException e) {
@@ -72,21 +72,18 @@ public class RecupererJsonImage extends AsyncTask<Void,Void,Void> {
         finish = true;
     }
 
-    public List<String> getId() {
+    public List<String> getId_image() {
         if (finish)
-            return id;
-        return id;
+            return id_image;
+        return id_image;
     }
 
-    public List<String> getLatitude() {
-        return latitude;
+    public List<String> getChemin() {
+        return chemin;
     }
 
-    public List<String> getLongitude() {
-        return longitude;
+    public List<String> getId_fruit() {
+        return id_fruit;
     }
 
-    public List<String> getType() {
-        return type;
-    }
 }

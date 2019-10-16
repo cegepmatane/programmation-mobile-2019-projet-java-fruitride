@@ -127,8 +127,8 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
             public void onSuccess(Location location) {
                 if (location != null) {
                     controleurCarte.localisationActuelle = location;
-                    /*Toast.makeText(getApplicationContext(), localisationActuelle.getLatitude()
-                            + " " + localisationActuelle.getLongitude(), Toast.LENGTH_SHORT).show();*/
+                    /*Toast.makeText(getApplicationContext(), localisationActuelle.getChemin()
+                            + " " + localisationActuelle.getId_fruit(), Toast.LENGTH_SHORT).show();*/
                     SupportMapFragment supportMapFragment =
                             (SupportMapFragment) getSupportFragmentManager()
                                     .findFragmentById(R.id.vue_carte_element_map_view);

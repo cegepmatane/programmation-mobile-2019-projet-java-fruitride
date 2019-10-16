@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import java.io.InputStream;
 
 import ca.qc.cgmatane.fruitride.R;
+import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
 import ca.qc.cgmatane.fruitride.modele.Fruit;
 
 public class AffichagePhotosFruit extends AppCompatActivity {
@@ -37,6 +38,9 @@ public class AffichagePhotosFruit extends AppCompatActivity {
 
         // Locate the Button in activity_main.xml
         button = (Button) findViewById(R.id.dlimg);
+
+        FruitDAO lala =  FruitDAO.getInstance();
+        lala.recupererImageFruitParId(idFruitParametres);
 
         // Capture button click
         button.setOnClickListener(new View.OnClickListener() {
