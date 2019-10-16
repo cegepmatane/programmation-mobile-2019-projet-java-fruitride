@@ -3,9 +3,6 @@ package ca.qc.cgmatane.fruitride.reseau;
 
 import android.os.AsyncTask;
 
-import com.google.android.gms.dynamic.IFragmentWrapper;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,13 +13,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 
-
-public class RecupererJsonFruit extends AsyncTask<Void,Void,Void> {
+public class RecupererJsonImage extends AsyncTask<Void,Void,Void> {
 
     String data ="";
     List<String> id;
@@ -31,7 +26,7 @@ public class RecupererJsonFruit extends AsyncTask<Void,Void,Void> {
     List<String> type;
     boolean finish = false;
 
-    public RecupererJsonFruit() {
+    public RecupererJsonImage() {
         id = new ArrayList<>();
         latitude = new ArrayList<>();
         longitude = new ArrayList<>();

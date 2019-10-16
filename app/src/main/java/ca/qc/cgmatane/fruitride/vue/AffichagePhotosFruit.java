@@ -33,7 +33,7 @@ public class AffichagePhotosFruit extends AppCompatActivity {
 
         Log.d("TOUDOUM", idFruitParametres + "--");
 
-        image = (ImageView) findViewById(R.id.imagedl);
+        image = (ImageView) findViewById(R.id.affichage_photo_fruit_image1);
 
         // Locate the Button in activity_main.xml
         button = (Button) findViewById(R.id.dlimg);
