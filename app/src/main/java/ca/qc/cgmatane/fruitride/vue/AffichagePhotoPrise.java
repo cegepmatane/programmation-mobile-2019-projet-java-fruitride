@@ -58,6 +58,18 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
                 partagerImage();
             }
         });
+
+        Button affichagePhotoPriseBoutonRetour = findViewById(R.id.affichage_photo_prise_bouton_retour);
+        affichagePhotoPriseBoutonRetour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                naviguerRetour();
+            }
+        });
+    }
+
+    public void naviguerRetour() {
+        this.finish();
     }
 
     @Override

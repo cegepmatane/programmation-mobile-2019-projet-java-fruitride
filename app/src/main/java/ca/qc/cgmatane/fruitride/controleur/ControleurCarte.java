@@ -23,10 +23,7 @@ public class ControleurCarte implements Controleur {
     private FruitDAO accesseurFruit;
 
     public static final int CODE_REQUETE_AUTORISATION_LOCALISATION = 101;
-    public static final int CODE_REQUETE_AUTORISATION_CAMERA = 102;
-    public static final int CODE_REQUETE_AUTORISATION_STOCKAGE = 103;
     public static final String ID_CHEMIN_IMAGE = "cheminImage";
-    public static final int CODE_REQUETE_CAPTURE_IMAGE = 1;
 
     public Location localisationActuelle;
     public FusedLocationProviderClient fusedLocationProviderClient;
@@ -42,10 +39,6 @@ public class ControleurCarte implements Controleur {
 
     public void actionNaviguerAccueil() {
         vue.naviguerAccueil();
-    }
-
-    public void naviguerVersAppareilPhoto() {
-        vue.ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
     }
 
     @Override
@@ -77,32 +70,12 @@ public class ControleurCarte implements Controleur {
     public void onActivityResult(int activite) {
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODE_REQUETE_CAPTURE_IMAGE && resultCode == Activity.RESULT_OK) {
-            vue.naviguerVersPhotoPrise();
-//            Toast.makeText(this, "Photo enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
-            /*Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            this.imageView.setImageBitmap(imageBitmap);*/
-        }
-    }
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == CODE_REQUETE_AUTORISATION_LOCALISATION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 vue.recupererLocalisationEtDemanderAutorisationSiBesoin();
-            }
-        } else if (requestCode == CODE_REQUETE_AUTORISATION_CAMERA) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                vue.ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
-            }
-        } else if (requestCode == CODE_REQUETE_AUTORISATION_STOCKAGE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                vue.ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
             }
         }
     }

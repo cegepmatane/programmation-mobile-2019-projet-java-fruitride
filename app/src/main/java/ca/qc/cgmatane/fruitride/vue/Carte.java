@@ -50,15 +50,6 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_carte);
 
-        Button bouton = findViewById(R.id.button2);
-
-        bouton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                controleurCarte.naviguerVersAppareilPhoto();
-            }
-        });
-
         findViewById(R.id.layout).setOnTouchListener(new ListenerSwipe(Carte.this) {
             public void onSwipeRight() {
 
@@ -147,73 +138,6 @@ public class Carte extends FragmentActivity implements OnMapReadyCallback, VueCa
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         controleurCarte.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-
-    public void ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {
-                            Manifest.permission.CAMERA }
-                    , ControleurCarte.CODE_REQUETE_AUTORISATION_CAMERA );
-        } else {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = enregistrerImage();
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
-                }
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, ControleurCarte.CODE_REQUETE_CAPTURE_IMAGE);
-                }
-            }
-
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE}
-                        , ControleurCarte.CODE_REQUETE_AUTORISATION_STOCKAGE);
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        controleurCarte.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public File enregistrerImage() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/FruitRide");
-        if (!storageDir.exists()) {
-            boolean resultat = storageDir.mkdir();
-            Log.d("TRUC", resultat + "");
-        }
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        controleurCarte.emplacementPhoto = image.getAbsolutePath();
-        return image;
-    }
-
-    @Override
-    public void naviguerVersPhotoPrise() {
-        Intent intent = new Intent(this, AffichagePhotoPrise.class);
-        intent.putExtra(ControleurCarte.ID_CHEMIN_IMAGE, controleurCarte.emplacementPhoto);
-        startActivityForResult(intent, 123);
     }
 
     @Override

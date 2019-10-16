@@ -11,11 +11,8 @@ import ca.qc.cgmatane.fruitride.modele.Fruit;
 public interface VueCarte {
     void naviguerAccueil();
     void recupererLocalisationEtDemanderAutorisationSiBesoin();
-    void ouvrirAppareilPhotoEtDemanderAutorisationSiBesoin();
-    File enregistrerImage() throws IOException;
     void setListeFruit(List<Fruit> listeFruit);
     void chargerIconesFruitPourMarkers();
     void accederLocalisation();
     void afficherFruits(GoogleMap googleMap);
-    void naviguerVersPhotoPrise();
 }
