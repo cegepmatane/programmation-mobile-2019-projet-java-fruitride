@@ -22,7 +22,7 @@ import java.util.HashMap;
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.controleur.ControleurAffichagePhotoPrise;
 import ca.qc.cgmatane.fruitride.controleur.ControleurCarte;
-import ca.qc.cgmatane.fruitride.reseau.CreateurRequete;
+import ca.qc.cgmatane.fruitride.reseau.CreateurRequeteImage;
 
 public class AffichagePhotoPrise extends AppCompatActivity implements VueAffichagePhotoPrise{
 
@@ -74,7 +74,7 @@ public class AffichagePhotoPrise extends AppCompatActivity implements VueAfficha
     public void partagerImage() {
         class PartageImage extends AsyncTask<Bitmap,Void,String> {
             ProgressDialog avancementEnvoi;
-            CreateurRequete requeteEnvoi = new CreateurRequete();
+            CreateurRequeteImage requeteEnvoi = new CreateurRequeteImage();
 
             @Override
             protected void onPreExecute() {

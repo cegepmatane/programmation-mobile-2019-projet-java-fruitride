@@ -14,7 +14,7 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class CreateurRequete {
+public class CreateurRequeteImage {
 
     public String getRequest(String uri) {
         try {

@@ -14,7 +14,7 @@ public class FruitDAO {
         if (instance == null) {
             instance = new FruitDAO();
         }
-        instance.preparerListeFruit();
+        instance.chargerListeFruit();
         return instance;
     }
 
@@ -22,7 +22,7 @@ public class FruitDAO {
         listeFruit = new ArrayList<>();
     }
 
-    private void preparerListeFruit() {
+    private void chargerListeFruit() {
 
         RecupererJsonFruit recupererJsonFruit = new RecupererJsonFruit();
         recupererJsonFruit.execute();
