@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.InputStream;
+import java.util.List;
 
 import ca.qc.cgmatane.fruitride.R;
 import ca.qc.cgmatane.fruitride.donnee.FruitDAO;
@@ -20,10 +21,12 @@ import ca.qc.cgmatane.fruitride.modele.Fruit;
 
 public class AffichagePhotosFruit extends AppCompatActivity {
     protected int idFruitParametres;
-    String URL = "https://test-qr-response.real-it.duckdns.org/upload/JPEG_20191012_222154_1001476978457843130.jpg";
-    ImageView image;
+    String URL = "https://test-qr-response.real-it.duckdns.org/upload/";
+    ImageView affichagePhotoFruitImage1;
+    ImageView affichagePhotoFruitImage2;
     Button button;
     ProgressDialog mProgressDialog;
+    List<String> listeImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +37,37 @@ public class AffichagePhotosFruit extends AppCompatActivity {
 
         Log.d("TOUDOUM", idFruitParametres + "--");
 
-        image = (ImageView) findViewById(R.id.affichage_photo_fruit_image1);
+        affichagePhotoFruitImage1 = (ImageView) findViewById(R.id.affichage_photo_fruit_image1);
+        affichagePhotoFruitImage2 = (ImageView) findViewById(R.id.affichage_photo_fruit_image2);
 
         // Locate the Button in activity_main.xml
         button = (Button) findViewById(R.id.dlimg);
 
         FruitDAO lala =  FruitDAO.getInstance();
-        lala.recupererImageFruitParId(idFruitParametres);
+         listeImages = lala.recupererImageFruitParId(idFruitParametres);
+        switch (listeImages.size()) {
+            case 1:
+                new TelechargerImage1().execute(URL + listeImages.get(0));
+                break;
+            case 2:
+                new TelechargerImage1().execute(URL + listeImages.get(0));
+                new TelechargerImage2().execute(URL + listeImages.get(1));
+                break;
+
+        }
 
         // Capture button click
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
 
-                // Execute DownloadImage AsyncTask
-                new DownloadImage().execute(URL);
+                // Execute TelechargerImage2 AsyncTask
+                new TelechargerImage2().execute(URL);
             }
         });
     }
 
-    // DownloadImage AsyncTask
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+    // TelechargerImage2 AsyncTask
+    private class TelechargerImage1 extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected void onPreExecute() {
@@ -61,9 +75,9 @@ public class AffichagePhotosFruit extends AppCompatActivity {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(AffichagePhotosFruit.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Download Image Tutorial");
+            mProgressDialog.setTitle("Téléchargement des images");
             // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setMessage("En cours...");
             mProgressDialog.setIndeterminate(false);
             // Show progressdialog
             mProgressDialog.show();
@@ -89,7 +103,49 @@ public class AffichagePhotosFruit extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap result) {
             // Set the bitmap into ImageView
-            image.setImageBitmap(result);
+            affichagePhotoFruitImage1.setImageBitmap(result);
+            // Close progressdialog
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private class TelechargerImage2 extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            mProgressDialog = new ProgressDialog(AffichagePhotosFruit.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Téléchargement des images");
+            // Set progressdialog message
+            mProgressDialog.setMessage("En cours...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... URL) {
+
+            String imageURL = URL[0];
+
+            Bitmap bitmap = null;
+            try {
+                // Download Image from URL
+                InputStream input = new java.net.URL(imageURL).openStream();
+                // Decode Bitmap
+                bitmap = BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // Set the bitmap into ImageView
+            affichagePhotoFruitImage2.setImageBitmap(result);
             // Close progressdialog
             mProgressDialog.dismiss();
         }

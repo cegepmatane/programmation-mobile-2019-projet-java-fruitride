@@ -46,7 +46,7 @@ public class FruitDAO {
         }
     }
 
-    public void recupererImageFruitParId(int id) {
+    public List<String> recupererImageFruitParId(int id) {
 
         RecupererJsonImage recupererJsonFruit = new RecupererJsonImage();
         recupererJsonFruit.execute(id+"");
@@ -64,8 +64,8 @@ public class FruitDAO {
         List<String> listeChemins = new ArrayList<>();
         for (int i = 0; i < id_fruit.size(); i++) {
             listeChemins.add(chemin.get(i));
-            Log.d("TADA", listeChemins.get(i));
         }
+        return listeChemins;
 
     }
 
